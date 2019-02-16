@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<table class="majors_table">
+        <tr>
+            <th>Majors</th>
+        </tr>
+        {% if study_majors %}
+            {% for m in study_majors %}
+                <tr>
+                    <td>
+                        <a href="" >{{ m.major_name }}: {{ m.concentration }} </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        
+        {% else %}
+            <tr>
+                <td>
+                    No majors to show.    
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+
+{% endblock %}

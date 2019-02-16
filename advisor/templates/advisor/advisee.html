@@ -1,0 +1,120 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<table class="advisor_header">
+    <th>
+        Advisor
+    </th>
+        {% if advisors %}
+        {% for advisor in advisors %}
+        <tr>
+            <td>
+                    <a href="{% url 'advisor:advisor_record' advisor.advisor.id %}" >{{ advisor.advisor }} </a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+            <tr>
+                <td>
+                    No advisors to show.
+                </td>
+            </tr>
+        {% endif %}
+    
+</table>
+
+
+
+<table class="student_header">
+    <th>
+        Advisee
+    </th>
+    <th>
+        Major
+    </th>
+    
+    <th>
+        Grade Level
+    </th>
+
+    <th>
+        Semester Started
+    </th>
+    <th>
+        GPA
+    </th>
+    <th>
+        Cell Phone Number
+    </th>
+    <tr>
+        <td>
+            {{ advisee_info.last_name }}, {{ advisee_info.first_name }} 
+        </td>
+        <td>
+            {{ advisee_info.first_major }}
+        </td>
+        <td>
+            {{ advisee_info.grade_level }}
+        </td>
+        <td>
+            {{ advisee_info.semester_started }}
+        </td>
+
+        <td>
+            {{ gpa }}
+        </td>
+
+        <td>
+            {{ advisee_info.cell_number }}
+        </td>
+    </tr>
+</table>
+
+<div>
+
+</div>
+
+{% if advisee_courses %}
+<table class="record_tables">
+    <tr>
+        <th>Course</th>
+        <th>Grade</th>
+    </tr>
+    
+    {% for course in advisee_courses %}
+        
+    <tr>
+        <td>
+            {% if course.course %}
+                {{ course.course }}
+            {% else %}
+                No courses to show.
+            {% endif %}      
+        </td>
+        <td class="center_data">
+            {% if course.grade %}
+            {{ course.grade }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
+    </tr>
+        
+    {% endfor %}
+</table>
+    
+{% else %}
+    <p>No courses to show.</p>
+{% endif %}
+
+
+</body>
+
+</html>
+{% endblock %}

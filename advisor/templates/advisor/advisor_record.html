@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+
+
+
+
+<table class="advisor_header">
+    <th>
+        Advisor
+    </th>
+
+    <tr>{% if advisor in advisee_list %}      
+            <td>
+                {{ advisor.advisor }}
+            </td>
+        {% else %}
+            <td>
+                No advisors to show.
+            </td>
+        {% endif %}
+    </tr>
+    
+</table>
+
+<div>
+
+</div>
+
+<table class="record_tables">
+    <tr>
+        <th>Advisees</th>
+    </tr>
+    {% if advisee_list %}
+    
+        {% for advisee in advisee_list %}
+            
+        <tr>
+            <td>
+                <a href="{% url 'advisor:advisee' advisee.advisee.id %}">{{ advisee.advisee }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        
+        {% else %}
+        <tr>
+            <td>
+                No students to show.
+            </td>
+        </tr>
+
+    {% endif %}
+
+</table>
+    
+
+</body>
+
+</html>
+{% endblock %}

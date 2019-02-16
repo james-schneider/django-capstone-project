@@ -1,0 +1,94 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<div>
+    <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
+</div>
+
+    <table class="advisors_table">
+        <tr>
+            <th>Advisors</th>
+        </tr>
+        {% if advisors %}
+            {% for advisor in advisors %}
+                <tr>
+                    <td>
+                        <a href="{% url 'advisor:advisor_record' advisor.id %}" >{{ advisor }} </a>   
+                    </td>
+                </tr>
+            {% endfor %}
+        
+        {% else %}
+            <tr>
+                <td>
+                    No advisors to show.    
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+
+    <table class="majors_table">
+            <tr>
+                <th>Majors</th>
+            </tr>
+            <tr>
+                <td><a href="{% url 'advisor:studies' %}" id="" class="" >All</a></td>
+            </tr>
+            <tr>
+                <td><a href="" id="" class="" >CIS</a></td>
+            </tr>
+            <tr>
+                <td><a href="" id="" class="" >CIS-M</a></td>
+            </tr>
+            <tr>
+                <td><a href="" id="" class="" >CS</a></td>
+            </tr> 
+    </table>
+        
+
+{% endblock %}
+
+{% comment %}
+{% if recent_student_list %}
+    <ul>
+    {% for student in recent_student_list %}
+        <!--the link below uses the advisee function inside of
+        /mysite/advisor/views.py-->
+        <li><a href="{% url 'advisor:advisee' advisee.id %}">{{ advisee }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No advisees have been added recently.</p>
+{% endif %}
+
+<table class="record_tables">
+        <tr>
+            <th>Advisees</th>
+        </tr>
+        {% if advisees %}
+            {% for advisee in advisees %}
+                <tr>
+                    <td>
+                        {{ advisee }}    
+                    </td>
+                </tr>
+            {% endfor %}
+            
+        {% else %}
+            <tr>
+                <td>
+                    No advisees to show.    
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+    
+
+
+
+
+{% endcomment %}
