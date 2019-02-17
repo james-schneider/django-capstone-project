@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Advisor</title>
 
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/advisor_layout.css' %}">
 </head>
@@ -15,8 +15,8 @@
         <a href="" id="" > <img class="nav_logo" src="{% static 'images/MilliganBuffalo.jpg' %}"/></a>
             
             <a class="topnav-right" href="">About</a>
-            <a class="topnav-right" href="">Courses</a>
-            <a class="topnav-right" href="">Advisees</a>
+            <a class="topnav-right" href="{% url 'advisor:courses' %}">Courses</a>
+            <a class="topnav-right" href="{% url 'advisor:advisee_list' %}">Advisees</a>
             <a class="topnav-right" href="{% url 'advisor:advisors' %}">Advisors</a>
             <a class="topnav-right" href="{% url 'advisor:index' %}">Home</a>
           

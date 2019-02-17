@@ -20,16 +20,21 @@ body {
 table {
     /*border-spacing:;*/
     padding: 0;
-    float: left;
+    float: none;
     margin: 5px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  table.advisor_header {
+table.advisor_header {
     margin-bottom: 20px;
     font-family: Arial, Helvetica, sans-serif;
     border: 1px solid rgb(234,113,37);
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table.advisor_header th {
@@ -37,16 +42,18 @@ table.advisor_header th {
     font-weight: bold;
     background-color: rgb(240,240,240);
     font-size: 16px;
+    text-align: center;
 }
 
 table.advisor_header tr td {
-    text-align: center;
+    text-align: left;
     min-width: 150px;
     margin-left: 10px;
     margin-right: 10px;
     padding: 5px;
     border: 1px solid lightgray;
 }
+
 
   table.student_header {
     margin-bottom: 20px;
@@ -125,6 +132,8 @@ table.advisors_table {
     /*border: 1px solid rgb(234,113,37);*/
     
     font-family: Arial, Helvetica, sans-serif;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 table.majors_table th, table.advisors_table th {

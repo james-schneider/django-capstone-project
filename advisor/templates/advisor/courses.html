@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<table class="record_tables">
+    <tr>
+        <th>Courses</th>
+    </tr>
+    {% if courses %}
+    
+        {% for course in courses %}
+            
+        <tr>
+            <td>
+                <a href="">{{ course }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        
+        {% else %}
+        <tr>
+            <td>
+                No courses to show.
+            </td>
+        </tr>
+
+    {% endif %}
+
+</table>
+
+{% endblock %}
+
+{% comment %}
+{% if recent_student_list %}
+    <ul>
+    {% for student in recent_student_list %}
+        <!--the link below uses the advisee function inside of
+        /mysite/advisor/views.py-->
+        <li><a href="{% url 'advisor:advisee' advisee.id %}">{{ advisee }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No advisees have been added recently.</p>
+{% endif %}
+
+<table class="record_tables">
+        <tr>
+            <th>Advisees</th>
+        </tr>
+        {% if advisees %}
+            {% for advisee in advisees %}
+                <tr>
+                    <td>
+                        {{ advisee }}    
+                    </td>
+                </tr>
+            {% endfor %}
+            
+        {% else %}
+            <tr>
+                <td>
+                    No advisees to show.    
+                </td>
+            </tr>
+        {% endif %}
+    </table>
+    
+
+
+
+
+{% endcomment %}
+
+

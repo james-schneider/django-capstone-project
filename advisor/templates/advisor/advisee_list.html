@@ -1,0 +1,42 @@
+
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<table class="record_tables">
+    <tr>
+        <th>Advisees</th>
+    </tr>
+    {% if advisees %}
+    
+        {% for advisee in advisees %}
+            
+        <tr>
+            <td>
+                <a href="{% url 'advisor:advisee' advisee.id %}">{{ advisee }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+        
+        {% else %}
+        <tr>
+            <td>
+                No students to show.
+            </td>
+        </tr>
+
+    {% endif %}
+
+</table>
+
+<div>
+
+</div>
+
+
+
+{% endblock %}

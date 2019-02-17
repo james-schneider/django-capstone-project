@@ -17,10 +17,17 @@ urlpatterns = [
     # ex: /advisor/advisor/1
     path('advisor/<int:advisor_id>/', views.advisor_record, name='advisor_record'),
 
-    # ex; /advisor/majors
+    # ex: /advisor/majors
     path('majors/', views.studies, name='studies'),
 
-    path('advisors/', views.advisors, name='advisors')
+    # ex: /advisor/advisors
+    path('advisors/', views.advisors, name='advisors'),
+
+    # ex: /advisor/advisees
+    path('advisees/', views.advisee_list, name='advisee_list'),
+
+    # ex: /advisor/courses
+    path('courses/', views.courses, name='courses'),
 
 ] 
 

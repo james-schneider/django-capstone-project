@@ -46,39 +46,41 @@ def advisee(request, advisee_id):
     #course_credits = get_list_or_404(CourseGrade, advisee_id=advisee_id)
 
     gpa = 0.0
+    grade_choices = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']
 
     if advisee_courses != "0":
         grade = ''
         credits = 0
         quality_points = 0
         for course in advisee_courses:
-            credits += course.course.credits
-            if course.grade == 'A+':
-                quality_points += course.course.credits * 4.3
-            elif course.grade == 'A':
-                quality_points += course.course.credits * 4.0
-            elif course.grade == 'A-':
-                quality_points += course.course.credits * 3.7
-            elif course.grade == 'B+':
-                quality_points += course.course.credits * 3.3
-            elif course.grade == 'B':
-                quality_points += course.course.credits * 3.0
-            elif course.grade == 'B-':
-                quality_points += course.course.credits * 2.7
-            elif course.grade == 'C+':
-                quality_points += course.course.credits * 2.3
-            elif course.grade == 'C':
-                quality_points += course.course.credits * 2.0
-            elif course.grade == 'C-':
-                quality_points += course.course.credits * 1.7
-            elif course.grade == 'D+':
-                quality_points += course.course.credits * 1.3
-            elif course.grade == 'D':
-                quality_points += course.course.credits * 1.0
-            elif course.grade == 'D-':
-                quality_points += course.course.credits * 0.7
-            elif course.grade == 'F':
-                quality_points += course.course.credits * 0.0
+            if course.grade in grade_choices:
+                credits += course.course.credits
+                if course.grade == 'A+':
+                    quality_points += course.course.credits * 4.3
+                elif course.grade == 'A':
+                    quality_points += course.course.credits * 4.0
+                elif course.grade == 'A-':
+                    quality_points += course.course.credits * 3.7
+                elif course.grade == 'B+':
+                    quality_points += course.course.credits * 3.3
+                elif course.grade == 'B':
+                    quality_points += course.course.credits * 3.0
+                elif course.grade == 'B-':
+                    quality_points += course.course.credits * 2.7
+                elif course.grade == 'C+':
+                    quality_points += course.course.credits * 2.3
+                elif course.grade == 'C':
+                    quality_points += course.course.credits * 2.0
+                elif course.grade == 'C-':
+                    quality_points += course.course.credits * 1.7
+                elif course.grade == 'D+':
+                    quality_points += course.course.credits * 1.3
+                elif course.grade == 'D':
+                    quality_points += course.course.credits * 1.0
+                elif course.grade == 'D-':
+                    quality_points += course.course.credits * 0.7
+                elif course.grade == 'F':
+                    quality_points += course.course.credits * 0.0
             
         gpa = round((quality_points / credits), 3)
 
@@ -126,7 +128,7 @@ def advisees_by_major(request, advisee_id):
     study_majors = get_list_or_404(StudyMajor)
     #context = {'advisee_info':advisee_info, 'major':major}
     context = {'study_majors':study_majors}
-    ##advisor is the app, major.html is the template
+    ##advisor is the app, studies.html is the template
     return render(request, 'advisor/studies.html', context)
 
 def advisors(request):
@@ -141,23 +143,31 @@ def advisors(request):
     except:
         advisor_relationships = '0'
 
+
     #advisor_list = [AdvisorRelationship() for i in range(5) ]
     advisor_list = [get_list_or_404(AdvisorRelationship)]
 
-    a = ['']
-    for i in advisor_list:
-        a += i
 
-    my_set = set(a)
-
-    my_new_list = list(my_set)
     
     
     
     #for advisor in advisor_relationships:
     #    advisor_list += advisor
     
-    context = {'advisees':advisees, 'advisors':advisors, 'study_majors':study_majors, 'advisor_relationships':advisor_relationships, 'advisor_list':advisor_list, 'a':a}
+    context = {'advisees':advisees, 'advisors':advisors, 'study_majors':study_majors, 'advisor_relationships':advisor_relationships, 'advisor_list':advisor_list}
     return render(request, 'advisor/advisors.html', context)
 
-#def 
+
+def advisee_list(request):
+    advisees = Advisee.objects.order_by('last_name')
+    context = {'advisees':advisees}
+
+    return render(request, 'advisor/advisee_list.html', context)
+
+
+def courses (request):
+
+    courses = Course.objects.order_by('course_no')
+    context = {'courses':courses}
+
+    return render(request, 'advisor/courses.html', context)
