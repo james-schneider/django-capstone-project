@@ -21,12 +21,23 @@ table {
     /*border-spacing:;*/
     padding: 0;
     float: none;
-    margin: 5px;
+    margin: 10px;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     margin-left: auto;
     margin-right: auto;
   }
+
+table caption {
+    color: rgb(234,113,37);
+    font-weight: bold;
+}
+
+table.side_by_side {
+    margin-left: auto;
+    margin-right: auto;
+
+}
 
 table.advisor_header {
     margin-bottom: 20px;
@@ -90,7 +101,7 @@ table.student_header tr td {
 
 table.record_tables {
     border: 1px solid gray;
-    clear: both;
+    /*clear: both;*/
 }
 
 table.record_tables td :nth-child(even) {
@@ -166,6 +177,12 @@ table.all_advisors_table td {
     margin-right: 5px;
     border: 1px solid lightgray;
     padding:5px;
+}
+
+td.total {
+    text-align: center;
+    font-weight: bold;
+    border: none;
 }
 
 

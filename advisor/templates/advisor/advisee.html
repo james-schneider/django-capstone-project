@@ -82,27 +82,94 @@
 
 
 
+{% comment%}
+    <!--wrapping the major and second major/minor table
+    within one table-->
+{% endcomment %}
+<table class="side_by_side" ><tr><td>
+
+    {% comment%}
+    <!--table for the courses in major-->
+    {% endcomment %}
+
+    {% if major_courses %}
+    <table class="record_tables">
+        <caption>Major</caption>
+        <tr>
+            <th>Course</th>
+            <th>Grade</th>
+            <th>Hours</th>
+        </tr>
+        
+        {% comment%}<!--loop through the MajorCourseGrade model objects-->{% endcomment %}
+        {% for course in major_courses %}
+            
+        <tr>
+            <td>
+                {% comment%}<!--course.course = the course attribute of the MajorCourseGrade model-->{% endcomment %}
+                {% if course.course %}
+                    {{ course.course.course_no }}
+                {% else %}
+                    TBD
+                {% endif %}      
+            </td>
+            <td class="center_data">
+                {% if course.grade %}
+                {{ course.grade }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+            <td class="center_data">
+                {% if course.course %}
+                {{ course.course.credits }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+        </tr>
+            
+        {% endfor %}
+        <tr>
+            <td class="total"></td>
+            <td class="total"></td>
+            <td class="total">{{ major_credits }}</td>
+        </tr>
+
+    </table>
+        
+    {% else %}
+        <p>No courses to show.</p>
+    {% endif %}
 
 {% comment%}
-<!--table for the courses in major-->
+    <!--wrapping the major and second major/minor table
+    within one table.  Closing first table, opening another.-->
+{% endcomment %}
+</td><td>
+
+
+{% comment%}
+<!--table for the courses in second major/minor-->
 {% endcomment %}
 
-{% if advisee_courses %}
+{% if second_major_courses %}
 <table class="record_tables">
-    <caption>First Major</caption>
+    <caption>Second Major/Minor</caption>
     <tr>
         <th>Course</th>
         <th>Grade</th>
+        <th>Hours</th>
     </tr>
     
-    {% for course in advisee_courses %}
+    {% for course in second_major_courses %}
         
     <tr>
         <td>
             {% if course.course %}
-                {{ course.course }}
+                {{ course.course.course_no }}
             {% else %}
-                No courses to show.
+                TBD
             {% endif %}      
         </td>
         <td class="center_data">
@@ -112,17 +179,159 @@
                 TBD
             {% endif %}
         </td>
+        <td class="center_data">
+            {% if course.credits %}
+            {{ course.credits }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
     </tr>
         
     {% endfor %}
+    <tr>
+        <td class="total"></td>
+        <td class="total"></td>
+        <td class="total">{{ second_major_credits }}</td>
+    </tr>
 </table>
     
 {% else %}
     <p>No courses to show.</p>
 {% endif %}
 
+{% comment%}
+    <!--wrapping the major and second major/minor table
+    within one table.  Closing second table.-->
+{% endcomment %}
+</td></tr></table>
 
-</body>
+<br>
 
-</html>
+
+
+
+{% comment%}
+    <!--wrapping the core and elective tables
+    within one table-->
+{% endcomment %}
+<table class="side_by_side" ><tr><td>
+
+{% comment%}
+<!--table for the courses in core courses-->
+{% endcomment %}
+
+{% if core_courses %}
+<table class="record_tables">
+    <caption>Core</caption>
+    <tr>
+        <th>Course</th>
+        <th>Grade</th>
+        <th>Hours</th>
+    </tr>
+    
+    {% for course in core_courses %}
+        
+    <tr>
+        <td>
+            {% if course.course %}
+                {{ course.course.course_no }}
+            {% else %}
+                TBD
+            {% endif %}      
+        </td>
+        <td class="center_data">
+            {% if course.grade %}
+            {{ course.grade }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
+        <td class="center_data">
+            {% if course.course %}
+            {{ course.course.credits }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
+    </tr>
+        
+    {% endfor %}
+    <tr>
+        <td class="total"></td>
+        <td class="total"></td>
+        <td class="total">{{ core_credits }}</td>
+    </tr>
+</table>
+    
+{% else %}
+    <p>No courses to show.</p>
+{% endif %}
+
+{% comment%}<!--wrapping the core and elective tables
+    within one table.  Closing first table, opening another.-->
+{% endcomment %}
+</td><td>
+
+{% comment%}
+<!--table for the courses in electives-->
+{% endcomment %}
+
+{% if elective_courses %}
+<table class="record_tables">
+    <caption>Electives</caption>
+    <tr>
+        <th>Course</th>
+        <th>Grade</th>
+        <th>Hours</th>
+    </tr>
+    
+    {% for course in elective_courses %}
+        
+    <tr>
+        <td>
+            {% if course.course %}
+                {{ course.course }}
+            {% else %}
+                TBD
+            {% endif %}      
+        </td>
+        <td class="center_data">
+            {% if course.grade %}
+            {{ course.grade }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
+        <td class="center_data">
+            {% if course.credits %}
+            {{ course.credits }}
+            {% else %}
+                TBD
+            {% endif %}
+        </td>
+    </tr>
+        
+    {% endfor %}
+    <tr>
+        <td class="total"></td>
+        <td class="total"></td>
+        <td class="total">{{ elective_credits }}</td>
+    </tr>
+
+</table>
+    
+{% else %}
+    <p>No courses to show.</p>
+{% endif %}
+
+{% comment%}
+    <!--wrapping the core and elective tables
+    within one table.  Closing second table.-->
+{% endcomment %}
+</td></tr></table>
+
+
+
+
 {% endblock %}
