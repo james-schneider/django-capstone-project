@@ -8,6 +8,8 @@ from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         CoreCourseGrade, ElectiveCourseGrade,
                         GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor)
 
+# original index view.  Not going to use it, but leaving it here for
+# information only.
 """
 def index(request):
     recent_student_list = Student.objects.order_by('last_name')[:5]
@@ -17,59 +19,75 @@ def index(request):
     return HttpResponse(template.render(context, request))
 """
 
-"""
-def index(request):
-    recent_student_list = Student.objects.order_by('last_name')[:5]
-    context = {'recent_student_list':recent_student_list}
-    return render(request, 'advisor/index.html', context)
-"""
 
+################################################################################
+# function: index
+# input: 
+# processing: create lists of each of the different types of courses.
+#             The lists are going to be used to display the invidual
+#             student records.
+# output: render, which is an HTML page that displays the advisors
+#################################################################################
 def index(request):
-    # recent_student_list = Student.objects.order_by('last_name')[:5]
-    # context = {'recent_student_list':recent_student_list}
-    advisees = Advisee.objects.order_by('last_name')
-    advisors = Advisor.objects.order_by('last_name')
-    study_majors = StudyMajor.objects.order_by('major_name')
-    try:
-        advisor_relationships = get_list_or_404(AdvisorRelationship)
-    except:
-        advisor_relationships = "0"
     
-    context = {'advisees':advisees, 'advisors':advisors, 'study_majors':study_majors, 'advisor_relationships':advisor_relationships}
+    # list of advisors objects
+    advisors = Advisor.objects.order_by('last_name')
+
+    # context is a dictionary of values that is sent with the render request.
+    # It includes all of the variables that you want to use on the html page
+    # that is going to be rendered.
+    context = {'advisors':advisors}
     return render(request, 'advisor/index.html', context)
 
+
+################################################################################
+# function: advisee
+# input: advisee_id--id number that is automatically created when
+#        a new advisee (student) is added to the database.
+# processing: create lists of each of the different types of courses.
+#             The lists are going to be used to display the invidual
+#             student records.
+# output: render, which is an HTML page that displays individual student records
+#################################################################################
 def advisee(request, advisee_id):
+    
+    # list of advisees from the Advisee model in models.py
     advisee_info = get_object_or_404(Advisee, pk=advisee_id)
-    #student_courses = get_list_or_404(CourseGrade.objects.order_by('student_id'))
+
+    # list of course grades from the MajorCourseGrade model in models.py
     try: 
         major_courses = get_list_or_404(MajorCourseGrade, advisee_id=advisee_id)
     except:
         major_courses = "0"
 
+    # list of course grades from the SecondMajorCourseGrade model in models.py
     try: 
         second_major_courses = get_list_or_404(SecondMajorCourseGrade, advisee_id=advisee_id)
     except:
         second_major_courses = "0"
 
-    try: 
+    # not using the MinorCourses model.  Including minor courses
+    # and other information in the SecondMajor model
+    """try: 
         minor_courses = get_list_or_404(MinorCourseGrade, advisee_id=advisee_id)
     except:
-        minor_courses = "0"
+        minor_courses = "0"""
 
+    # list of course grades from the CoreCourseGrade model in models.py
     try: 
         core_courses = get_list_or_404(CoreCourseGrade, advisee_id=advisee_id)
     except:
         core_courses = "0"
 
+    # list of course grades from the ElectiveCourseGrade model in models.py
     try: 
         elective_courses = get_list_or_404(ElectiveCourseGrade, advisee_id=advisee_id)
     except:
         elective_courses = "0"
     
 
-    #course_credits = get_list_or_404(CourseGrade, advisee_id=advisee_id)
-
-    # variables used to track credits in different course categories
+    # initialize variables used to track credits
+    # in different course categories
     major_credits = 0.0
     second_major_credits = 0.0
     minor_credits = 0.0
@@ -77,7 +95,8 @@ def advisee(request, advisee_id):
     elective_credits = 0.0
     total_credits = 0.0
 
-    # variables used to track credits for GPA in different course categories
+    # initialize variables used to track credits for GPA 
+    # in different course categories
     gpa_major_credits = 0.0
     gpa_second_major_credits = 0.0
     gpa_minor_credits = 0.0
@@ -85,7 +104,17 @@ def advisee(request, advisee_id):
     gpa_elective_credits = 0.0
     gpa_total_credits = 0.0
 
-    # variables used to track quality points for GPA in different course categories
+    # initialize variables used to track quality points
+    # in different course categories
+    major_quality_points = 0.0
+    second_major_quality_points = 0.0
+    minor_quality_points = 0.0
+    core_quality_points = 0.0
+    elective_quality_points = 0.0
+    total_quality_points = 0.0
+    
+    # initialize variables used to track quality points for GPA
+    # in different course categories
     gpa_major_quality_points = 0.0
     gpa_second_major_quality_points = 0.0
     gpa_minor_quality_points = 0.0
@@ -93,26 +122,23 @@ def advisee(request, advisee_id):
     gpa_elective_quality_points = 0.0
     gpa_total_quality_points = 0.0
     
-    # variables used to track quality points in different course categories
-    major_quality_points = 0.0
-    second_major_quality_points = 0.0
-    minor_quality_points = 0.0
-    core_quality_points = 0.0
-    elective_quality_points = 0.0
-    total_quality_points = 0.0
+    
 
 
     
-    
+    # initialize gpa variable. Used to calculate an advisee's GPA
     gpa = 0.0
+    # list of choices that will be used to calculate quality points for GPA purposes
     grade_choices = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']
 
+    
     if major_courses != "0":
         grade = ''
         quality_points = 0.0
+        # loop through all of the core courses to find out how many
+        # credits have been earned and calculate GPA
         for course in major_courses:
             if course.grade in grade_choices:
-            
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -153,9 +179,10 @@ def advisee(request, advisee_id):
     if second_major_courses != "0":
         grade = ''
         quality_points = 0.0
+        # loop through all of the core courses to find out how many
+        # credits have been earned and calculate GPA
         for course in second_major_courses:
             if course.grade in grade_choices:
-
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -192,8 +219,9 @@ def advisee(request, advisee_id):
             second_major_quality_points+=quality_points
             
        
-
-    if minor_courses != "0":
+    # not using the MinorCourses model.  Including minor courses
+    # and other information in the SecondMajor model.
+    """if minor_courses != "0":
         grade = ''
         quality_points = 0.0
         for course in minor_courses:
@@ -232,13 +260,15 @@ def advisee(request, advisee_id):
             
             minor_credits+=course.course.credits
 
-            minor_quality_points+=quality_points
+            minor_quality_points+=quality_points"""
             
       
-
+    
     if core_courses != "0":
         grade = ''
         quality_points = 0.0
+        # loop through all of the core courses to find out how many
+        # credits have been earned and calculate GPA
         for course in core_courses:
             if course.grade in grade_choices:
 
@@ -269,23 +299,24 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
+                # varibles to be used to calculate GPA
                 gpa_core_credits+=course.course.credits
-
+                # varibles to be used to calculate GPA
                 gpa_core_quality_points+=quality_points
-            
-            core_credits+=course.course.credits
 
+            # varibles to be used to calculate credits--not included in GPA
+            core_credits+=course.course.credits
+            # varibles to be used to calculate quality points--not included in GPA
             core_quality_points+=quality_points
         
-            
-      
 
     if elective_courses != "0":
         grade = ''
         quality_points = 0.0
+        # loop through all of the core courses to find out how many
+        # credits have been earned and calculate GPA
         for course in elective_courses:
             if course.grade in grade_choices:
-
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -313,37 +344,43 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
+                # varible used to calculate GPA
                 gpa_elective_credits+=course.course.credits
-
+                # varible used to calculate GPA
                 gpa_elective_quality_points+=quality_points
-            
-            elective_credits+=course.course.credits
 
+            # varible used to calculate credits--not included in GPA
+            elective_credits+=course.course.credits
+            # varible used to calculate quality points--not included in GPA
             elective_quality_points+=quality_points
 
+    # variable used for displaying total credits of all courses
     total_credits = (major_credits + second_major_credits + minor_credits \
                     + core_credits + elective_credits)
-    
+
+    # variable used for calculating credits--used in GPA calculation
     gpa_total_credits = (gpa_major_credits + gpa_second_major_credits + gpa_minor_credits \
                     + gpa_core_credits + gpa_elective_credits)
-
+    # variable used for calculating quality--used in GPA calculation
     gpa_total_quality_points = (gpa_major_quality_points + gpa_second_major_quality_points + \
                         gpa_minor_quality_points + gpa_core_quality_points + gpa_elective_quality_points)
             
+    # calculate GPA, else gpa = "TBD"
     try:
         gpa = round((gpa_total_quality_points / gpa_total_credits), 3)
     except: gpa = "TBD"
-
+    
+    #variable used to display the advisor of the individual advisee
     advisors = get_list_or_404(AdvisorRelationship, advisee_id=advisee_id)
     
-    """if advisee_courses:
-        context = {'advisee_info':advisee_info, 'advisee_courses':advisee_courses, 'advisors':advisors, 'gpa':gpa}
-    else:
-        context = {'advisee_info':advisee_info, 'advisors':advisors, 'gpa':gpa}"""
-    
+    # title that is going to show up in the browser tab
     title=advisee_info.first_name + " " + advisee_info.last_name
+    
+    # context is a dictionary of values that is sent with the render request.
+    # It includes all of the variables that you want to use on the html page
+    # that is going to be rendered.
     context = {'advisee_info':advisee_info, 'major_courses':major_courses, \
-                'second_major_courses':second_major_courses, 'minor_courses':minor_courses, \
+                'second_major_courses':second_major_courses, \
                 'core_courses':core_courses, 'elective_courses':elective_courses, \
                 'advisors':advisors, 'gpa':gpa, 'major_credits':major_credits, \
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
@@ -353,18 +390,24 @@ def advisee(request, advisee_id):
     # return the record.html template. advisor is the app name, record is the advisee name.
     return render(request, 'advisor/advisee.html', context)
 
-    #return render(request, 'advisor/record.html', {'student_name': student_name}, {'student_courses': student_courses})
 
+
+################################################################################
+# function: advisor_record
+# input: advisor_id--id number that is automatically created when a new advisor
+#        is added to the database
+# processing: create lists of each of the different types of courses.
+#             The lists are going to be used to display the invidual
+#             student records.
+# output: render, which is an HTML page that displays the advisors
+#################################################################################
 def advisor_record(request, advisor_id):
     
     advisee_list = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
     advisor = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)[0]
-    #advisor = get_object_or_404(AdvisorRelationship, advisee_id=advisee_id)
-    #advisor_advisee_info = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
-    #advisee_list = AdvisorRelationship.objects.order_by('advisor')
-    #advisee_list = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
     context = {'advisee_list':advisee_list, 'advisor':advisor}
-    ##advisor is the app, advisor_record.html is the view
+    
+    #advisor is the name of the app, advisor_record.html is the view
     return render(request, 'advisor/advisor_record.html', context)
 
 def studies(request):

@@ -8,11 +8,9 @@ class StudyMajor(models.Model):
     def __str__(self):
         return self.major_name + ": " + self.concentration
 
-
+# model for advisees (students)
 class Advisee(models.Model):
-   
-    # course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    # student_no = models.CharField(max_length=30)
+
     first_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30)
@@ -28,10 +26,8 @@ class Advisee(models.Model):
     def __str__(self):
         
         if self.middle_name != "":
-            #return str(self.id) + " - " + self.last_name + ", " + self.first_name + " " + self.middle_name
             return self.last_name + ", " + self.first_name + " " + self.middle_name
 
-        #return str(self.id) + " - " + self.last_name + ", " + self.first_name
         return self.last_name + ", " + self.first_name
 
 
@@ -39,7 +35,6 @@ class Advisor(models.Model):
     first_name = models.CharField(max_length=30)
     middle_name = models.CharField(max_length=30, blank=True)
     last_name = models.CharField(max_length=30)
-    # advisee = models.ForeignKey(Student, on_delete=models.CASCADE)
 
     def __str__(self):
         
@@ -48,21 +43,6 @@ class Advisor(models.Model):
 
         return self.last_name + ", " + self.first_name
 
-"""
-class Concentration(models.Model):
-    concentration = models.CharField(max_length=100, blank=True)
-
-    def __str__(self):
-        return self.concentration
-"""
-"""
-class Major(models.Model):
-    major_name = models.CharField(max_length=100)
-    concentration = models.CharField(max_length=100, blank=True)
-
-    def __str__(self):
-        return self.major_name
-"""
 
 class Instructor(models.Model):
     first_name = models.CharField(max_length=30)
@@ -211,15 +191,6 @@ class AdvisorRelationship(models.Model):
 
         return str(self.advisor) + " ---> " + str(self.advisee)
 
-
-
-"""
-class Record(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-
-    #course_name = models.ForeignKey(Course, on_delete=models.CASCADE)
-"""
 
 
 

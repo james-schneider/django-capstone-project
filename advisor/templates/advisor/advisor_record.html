@@ -15,9 +15,9 @@
         Advisor
     </th>
 
-    <tr>{% if advisor in advisee_list %}      
+    <tr>{% if advisor %}      
             <td>
-                {{ advisor.advisor }}
+                {{ advisor.advisor.first_name }} {{ advisor.advisor.last_name }}
             </td>
         {% else %}
             <td>
