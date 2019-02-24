@@ -5,9 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Advisor</title>
+    <title>
+        {% block title %}
+            {% if title %} {{ title }} {% else %} Advisor {% endif %}
+        {% endblock %}
+    </title>
+    <link rel="icon" href="{% static 'images/MilliganBuffalo.jpg' %}">
+
 
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/advisor_layout.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'advisor/tables.css' %}">
 </head>
 <body>
     

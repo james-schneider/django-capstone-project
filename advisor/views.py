@@ -2,10 +2,10 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.template import loader
 from django.http import HttpResponse
 
-from .models import (MajorCourse, SecondMajorCourse, MinorCourse, CoreCourse,
+from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         ElectiveCourse, Advisee, Advisor, 
                         Instructor, MajorCourseGrade, SecondMajorCourseGrade,
-                        MinorCourseGrade, CoreCourseGrade, ElectiveCourseGrade,
+                        CoreCourseGrade, ElectiveCourseGrade,
                         GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor)
 
 """
@@ -69,20 +69,47 @@ def advisee(request, advisee_id):
 
     #course_credits = get_list_or_404(CourseGrade, advisee_id=advisee_id)
 
-    # variables uses to track credits in different course categories
+    # variables used to track credits in different course categories
     major_credits = 0.0
     second_major_credits = 0.0
     minor_credits = 0.0
     core_credits = 0.0
     elective_credits = 0.0
+    total_credits = 0.0
+
+    # variables used to track credits for GPA in different course categories
+    gpa_major_credits = 0.0
+    gpa_second_major_credits = 0.0
+    gpa_minor_credits = 0.0
+    gpa_core_credits = 0.0
+    gpa_elective_credits = 0.0
+    gpa_total_credits = 0.0
+
+    # variables used to track quality points for GPA in different course categories
+    gpa_major_quality_points = 0.0
+    gpa_second_major_quality_points = 0.0
+    gpa_minor_quality_points = 0.0
+    gpa_core_quality_points = 0.0
+    gpa_elective_quality_points = 0.0
+    gpa_total_quality_points = 0.0
+    
+    # variables used to track quality points in different course categories
+    major_quality_points = 0.0
+    second_major_quality_points = 0.0
+    minor_quality_points = 0.0
+    core_quality_points = 0.0
+    elective_quality_points = 0.0
+    total_quality_points = 0.0
 
 
+    
+    
     gpa = 0.0
     grade_choices = ['A+', 'A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'F']
 
     if major_courses != "0":
         grade = ''
-        quality_points = 0
+        quality_points = 0.0
         for course in major_courses:
             if course.grade in grade_choices:
             
@@ -113,22 +140,22 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
-        major_credits = 0
-        for course in major_courses:
+                gpa_major_credits+=course.course.credits
+
+                gpa_major_quality_points+=quality_points
+
             major_credits+=course.course.credits
+
+            major_quality_points+=quality_points
             
-        try:
-            gpa = round((quality_points / credits), 3)
-        except: gpa = "TBD"
 
 
     if second_major_courses != "0":
         grade = ''
-        credits = 0
-        quality_points = 0
+        quality_points = 0.0
         for course in second_major_courses:
             if course.grade in grade_choices:
-                credits += course.course.credits
+
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -156,19 +183,22 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
-    if second_major_courses != "0":
-        for course in second_major_courses:
+                gpa_second_major_credits+=course.course.credits
+
+                gpa_second_major_quality_points+=quality_points
+            
             second_major_credits+=course.course.credits
+
+            second_major_quality_points+=quality_points
             
        
 
     if minor_courses != "0":
         grade = ''
-        credits = 0
-        quality_points = 0
+        quality_points = 0.0
         for course in minor_courses:
             if course.grade in grade_choices:
-                credits += course.course.credits
+
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -196,61 +226,66 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
+                gpa_minor_credits+=course.course.credits
 
-    if minor_courses != "0":
-        for course in minor_courses:
+                gpa_minor_quality_points+=quality_points
+            
             minor_credits+=course.course.credits
+
+            minor_quality_points+=quality_points
             
       
 
-        if core_courses != "0":
-            grade = ''
-            credits = 0
-            quality_points = 0
-            for course in core_courses:
-                if course.grade in grade_choices:
-                    credits += course.course.credits
-                    if course.grade == 'A+':
-                        quality_points += course.course.credits * 4.3
-                    elif course.grade == 'A':
-                        quality_points += course.course.credits * 4.0
-                    elif course.grade == 'A-':
-                        quality_points += course.course.credits * 3.7
-                    elif course.grade == 'B+':
-                        quality_points += course.course.credits * 3.3
-                    elif course.grade == 'B':
-                        quality_points += course.course.credits * 3.0
-                    elif course.grade == 'B-':
-                        quality_points += course.course.credits * 2.7
-                    elif course.grade == 'C+':
-                        quality_points += course.course.credits * 2.3
-                    elif course.grade == 'C':
-                        quality_points += course.course.credits * 2.0
-                    elif course.grade == 'C-':
-                        quality_points += course.course.credits * 1.7
-                    elif course.grade == 'D+':
-                        quality_points += course.course.credits * 1.3
-                    elif course.grade == 'D':
-                        quality_points += course.course.credits * 1.0
-                    elif course.grade == 'D-':
-                        quality_points += course.course.credits * 0.7
-                    elif course.grade == 'F':
-                        quality_points += course.course.credits * 0.0
-
     if core_courses != "0":
+        grade = ''
+        quality_points = 0.0
         for course in core_courses:
+            if course.grade in grade_choices:
+
+                if course.grade == 'A+':
+                    quality_points += course.course.credits * 4.3
+                elif course.grade == 'A':
+                    quality_points += course.course.credits * 4.0
+                elif course.grade == 'A-':
+                    quality_points += course.course.credits * 3.7
+                elif course.grade == 'B+':
+                    quality_points += course.course.credits * 3.3
+                elif course.grade == 'B':
+                    quality_points += course.course.credits * 3.0
+                elif course.grade == 'B-':
+                    quality_points += course.course.credits * 2.7
+                elif course.grade == 'C+':
+                    quality_points += course.course.credits * 2.3
+                elif course.grade == 'C':
+                    quality_points += course.course.credits * 2.0
+                elif course.grade == 'C-':
+                    quality_points += course.course.credits * 1.7
+                elif course.grade == 'D+':
+                    quality_points += course.course.credits * 1.3
+                elif course.grade == 'D':
+                    quality_points += course.course.credits * 1.0
+                elif course.grade == 'D-':
+                    quality_points += course.course.credits * 0.7
+                elif course.grade == 'F':
+                    quality_points += course.course.credits * 0.0
+
+                gpa_core_credits+=course.course.credits
+
+                gpa_core_quality_points+=quality_points
+            
             core_credits+=course.course.credits
+
+            core_quality_points+=quality_points
         
             
       
 
     if elective_courses != "0":
         grade = ''
-        credits = 0
-        quality_points = 0
+        quality_points = 0.0
         for course in elective_courses:
             if course.grade in grade_choices:
-                credits += course.course.credits
+
                 if course.grade == 'A+':
                     quality_points += course.course.credits * 4.3
                 elif course.grade == 'A':
@@ -278,12 +313,25 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
-    if elective_courses != "0":
-        for course in elective_courses:
+                gpa_elective_credits+=course.course.credits
+
+                gpa_elective_quality_points+=quality_points
+            
             elective_credits+=course.course.credits
+
+            elective_quality_points+=quality_points
+
+    total_credits = (major_credits + second_major_credits + minor_credits \
+                    + core_credits + elective_credits)
+    
+    gpa_total_credits = (gpa_major_credits + gpa_second_major_credits + gpa_minor_credits \
+                    + gpa_core_credits + gpa_elective_credits)
+
+    gpa_total_quality_points = (gpa_major_quality_points + gpa_second_major_quality_points + \
+                        gpa_minor_quality_points + gpa_core_quality_points + gpa_elective_quality_points)
             
     try:
-        gpa = round((quality_points / credits), 3)
+        gpa = round((gpa_total_quality_points / gpa_total_credits), 3)
     except: gpa = "TBD"
 
     advisors = get_list_or_404(AdvisorRelationship, advisee_id=advisee_id)
@@ -292,12 +340,15 @@ def advisee(request, advisee_id):
         context = {'advisee_info':advisee_info, 'advisee_courses':advisee_courses, 'advisors':advisors, 'gpa':gpa}
     else:
         context = {'advisee_info':advisee_info, 'advisors':advisors, 'gpa':gpa}"""
+    
+    title=advisee_info.first_name + " " + advisee_info.last_name
     context = {'advisee_info':advisee_info, 'major_courses':major_courses, \
                 'second_major_courses':second_major_courses, 'minor_courses':minor_courses, \
                 'core_courses':core_courses, 'elective_courses':elective_courses, \
                 'advisors':advisors, 'gpa':gpa, 'major_credits':major_credits, \
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
-                'core_credits':core_credits, 'elective_credits':elective_credits }
+                'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
+                'title':title}
 
     # return the record.html template. advisor is the app name, record is the advisee name.
     return render(request, 'advisor/advisee.html', context)

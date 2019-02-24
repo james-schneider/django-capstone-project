@@ -1,0 +1,238 @@
+/*****tables*********************************/
+table {
+    /*border-spacing:;*/
+    padding: 0;
+    float: none;
+    margin: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+table caption {
+    color: rgb(234,113,37);
+    font-weight: bold;
+}
+
+table.left_side {
+    float: left;
+    width: 45%;
+}
+
+table.right_side {
+    float: right;
+    width: 45%;
+}
+
+table.advisor_header {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid rgb(234,113,37);
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.advisor_header th {
+    color: black;
+    font-weight: bold;
+    background-color: rgb(240,240,240);
+    font-size: 16px;
+    text-align: center;
+}
+
+table.advisor_header tr td {
+    text-align: left;
+    min-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+
+
+  table.student_header {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 2px solid gray;
+    
+}
+
+table.student_header th {
+    color: black;
+    font-weight: bold;
+    background-color: rgb(240,240,240);
+    font-size: 16px;
+}
+
+
+table.student_header tr td {
+    text-align: center;
+    min-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 5px;
+    border: 1px solid lightgray;
+}
+  
+  table a {
+    text-decoration: none;
+    color: black;
+  }
+
+  table a:hover {
+      color:rgb(234,113,37);
+  }
+
+table.record_tables {
+    border: 1px solid gray;
+    clear: both;
+}
+
+table.record_tables td :nth-child(even) {
+    text-align: left;
+}
+
+  .record_tables td {
+    min-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:5px;
+    border: 1px solid lightgray;
+    font-family: Arial, Helvetica, sans-serif;*/
+  }
+
+  .record_tables td.center_data {
+    text-align: center;
+  }
+  
+  
+.record_tables th {
+    background: rgb(240,240,240);
+    font-size: 16px;
+}
+
+.record_tables tr {
+    border: 1px solid gainsboro;
+}
+
+table.record_tables_left {
+    border: 1px solid gray;
+    float: left;
+    width: 45%;
+    /*clear: both;*/
+}
+
+table.record_tables_left td :nth-child(even) {
+    text-align: left;
+}
+
+  .record_tables_left td {
+    min-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:5px;
+    border: 1px solid lightgray;
+    font-family: Arial, Helvetica, sans-serif;*/
+  }
+
+  .record_tables_left td.center_data {
+    text-align: center;
+  }
+  
+  
+.record_tables_left th {
+    background: rgb(240,240,240);
+    font-size: 16px;
+}
+
+.record_tables_left tr {
+    border: 1px solid gainsboro;
+}
+
+table.record_tables_right {
+    border: 1px solid gray;
+    float: right;
+    width: 45%;
+    /*clear: both;*/
+}
+
+table.record_tables_right td :nth-child(even) {
+    text-align: left;
+}
+
+  .record_tables_right td {
+    min-width: 150px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding:5px;
+    border: 1px solid lightgray;
+    font-family: Arial, Helvetica, sans-serif;*/
+  }
+
+  .record_tables_right td.center_data {
+    text-align: center;
+  }
+  
+  
+.record_tables_right th {
+    background: rgb(240,240,240);
+    font-size: 16px;
+}
+
+.record_tables_right tr {
+    border: 1px solid gainsboro;
+}
+
+table.majors_table, table.advisors_table {
+    border: 1px solid gray;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table.advisors_table {
+    border: 1px solid rgb(234,113,37);
+    /*border: 1px solid rgb(234,113,37);*/
+    
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.majors_table th, table.advisors_table th {
+    background-color: rgb(240,240,240);
+    font-size: 16px;
+}
+
+table.majors_table td, table.advisors_table td {
+    min-width: 200px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid lightgray;
+    padding:5px;
+}
+
+table.all_advisors_table {
+    border: 1px solid rgb(234,113,37);
+    /*border: 1px solid rgb(234,113,37);*/
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+table.all_advisors_table th {
+    background-color: rgb(240,240,240);
+    font-size: 16px;
+}
+
+table.all_advisors_table td {
+    min-width: 150px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid lightgray;
+    padding:5px;
+}
+
+td.total {
+    text-align: center;
+    font-weight: bold;
+    border: none;
+}

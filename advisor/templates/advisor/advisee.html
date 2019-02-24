@@ -82,18 +82,12 @@
 
 
 
-{% comment%}
-    <!--wrapping the major and second major/minor table
-    within one table-->
-{% endcomment %}
-<table class="side_by_side" ><tr><td>
-
     {% comment%}
     <!--table for the courses in major-->
     {% endcomment %}
 
     {% if major_courses %}
-    <table class="record_tables">
+    <table class="record_tables_left">
         <caption>Major</caption>
         <tr>
             <th>Course</th>
@@ -139,22 +133,16 @@
     </table>
         
     {% else %}
-        <p>No courses to show.</p>
+        <p>No major courses to show.</p>
     {% endif %}
-
-{% comment%}
-    <!--wrapping the major and second major/minor table
-    within one table.  Closing first table, opening another.-->
-{% endcomment %}
-</td><td>
 
 
 {% comment%}
 <!--table for the courses in second major/minor-->
 {% endcomment %}
 
-{% if second_major_courses %}
-<table class="record_tables">
+{% if second_major_courses != 0 %}
+<table class="record_tables_right">
     <caption>Second Major/Minor</caption>
     <tr>
         <th>Course</th>
@@ -180,8 +168,8 @@
             {% endif %}
         </td>
         <td class="center_data">
-            {% if course.credits %}
-            {{ course.credits }}
+            {% if course.course %}
+            {{ course.course.credits }}
             {% else %}
                 TBD
             {% endif %}
@@ -197,32 +185,20 @@
 </table>
     
 {% else %}
-    <p>No courses to show.</p>
+    <p>No second major or minor courses to show.</p>
 {% endif %}
 
-{% comment%}
-    <!--wrapping the major and second major/minor table
-    within one table.  Closing second table.-->
-{% endcomment %}
-</td></tr></table>
+
 
 <br>
 
 
 
 
-{% comment%}
-    <!--wrapping the core and elective tables
-    within one table-->
-{% endcomment %}
-<table class="side_by_side" ><tr><td>
 
-{% comment%}
-<!--table for the courses in core courses-->
-{% endcomment %}
 
 {% if core_courses %}
-<table class="record_tables">
+<table class="record_tables_left">
     <caption>Core</caption>
     <tr>
         <th>Course</th>
@@ -257,6 +233,7 @@
     </tr>
         
     {% endfor %}
+
     <tr>
         <td class="total"></td>
         <td class="total"></td>
@@ -265,20 +242,17 @@
 </table>
     
 {% else %}
-    <p>No courses to show.</p>
+    <p>No core courses to show.</p>
 {% endif %}
 
-{% comment%}<!--wrapping the core and elective tables
-    within one table.  Closing first table, opening another.-->
-{% endcomment %}
-</td><td>
+
 
 {% comment%}
 <!--table for the courses in electives-->
 {% endcomment %}
 
 {% if elective_courses %}
-<table class="record_tables">
+<table class="record_tables_right">
     <caption>Electives</caption>
     <tr>
         <th>Course</th>
@@ -291,7 +265,7 @@
     <tr>
         <td>
             {% if course.course %}
-                {{ course.course }}
+                {{ course.course.course_no }}
             {% else %}
                 TBD
             {% endif %}      
@@ -304,8 +278,8 @@
             {% endif %}
         </td>
         <td class="center_data">
-            {% if course.credits %}
-            {{ course.credits }}
+            {% if course.course %}
+            {{ course.course.credits }}
             {% else %}
                 TBD
             {% endif %}
@@ -322,14 +296,25 @@
 </table>
     
 {% else %}
-    <p>No courses to show.</p>
+    <p>No elective courses to show.</p>
 {% endif %}
 
-{% comment%}
-    <!--wrapping the core and elective tables
-    within one table.  Closing second table.-->
-{% endcomment %}
-</td></tr></table>
+
+
+
+
+<br><br><br>
+
+<table class="record_tables">
+    <tr>
+        <th>
+            Total Hours
+        </th>
+    </tr>
+    <tr>
+        <td class="center_data">{{ total_credits }}</td>
+    </tr>
+</table>
 
 
 

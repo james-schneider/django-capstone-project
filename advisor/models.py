@@ -103,7 +103,8 @@ class SecondMajorCourse(models.Model):
 
     def __str__(self):
         return self.course_no + " - " + self.course_name
-class MinorCourse(models.Model):
+
+"""class MinorCourse(models.Model):
     course_no = models.CharField(max_length=20)
     course_name = models.CharField(max_length=100)
     credits = models.FloatField(max_length=10, blank=True, null=True)
@@ -111,7 +112,7 @@ class MinorCourse(models.Model):
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
-        return self.course_no + " - " + self.course_name
+        return self.course_no + " - " + self.course_name"""
 
 class CoreCourse(models.Model):
     course_no = models.CharField(max_length=20)
@@ -158,7 +159,7 @@ class SecondMajorCourseGrade(models.Model):
         #return str(self.grade)
         return str(self.advisee) + " - " + str(self.course) + " = " + str(self.grade)
 
-class MinorCourseGrade(models.Model):
+"""class MinorCourseGrade(models.Model):
     advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
     course = models.ForeignKey(MinorCourse, on_delete=models.CASCADE)
     grade = models.CharField(max_length=10, blank=True)
@@ -168,7 +169,7 @@ class MinorCourseGrade(models.Model):
     def __str__(self):
         
         #return str(self.grade)
-        return str(self.advisee) + " - " + str(self.course) + " = " + str(self.grade)
+        return str(self.advisee) + " - " + str(self.course) + " = " + str(self.grade)"""
 
 class CoreCourseGrade(models.Model):
     advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
