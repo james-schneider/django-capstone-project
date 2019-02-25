@@ -123,9 +123,6 @@ def advisee(request, advisee_id):
     gpa_total_quality_points = 0.0
     
     
-
-
-    
     # initialize gpa variable. Used to calculate an advisee's GPA
     gpa = 0.0
     # list of choices that will be used to calculate quality points for GPA purposes
@@ -387,7 +384,7 @@ def advisee(request, advisee_id):
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
                 'title':title}
 
-    # return the record.html template. advisor is the app name, record is the advisee name.
+    #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)
 
 
@@ -396,68 +393,66 @@ def advisee(request, advisee_id):
 # function: advisor_record
 # input: advisor_id--id number that is automatically created when a new advisor
 #        is added to the database
-# processing: create lists of each of the different types of courses.
-#             The lists are going to be used to display the invidual
-#             student records.
-# output: render, which is an HTML page that displays the advisors
+# processing: create list of advisor relationships to display all of the
+#             advisees (students) assigned to that particular advisor
+# output: render, which is an HTML page that displays the advisors and
+#         all of their advisees
 #################################################################################
 def advisor_record(request, advisor_id):
     
     advisee_list = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
     advisor = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)[0]
+    
     context = {'advisee_list':advisee_list, 'advisor':advisor}
     
-    #advisor is the name of the app, advisor_record.html is the view
+    #advisor is the name of the app, advisor_record.html is the template
     return render(request, 'advisor/advisor_record.html', context)
 
-def studies(request):
-    #advisee_info = get_object_or_404(Advisee, pk=advisee_id)
-    study_majors = get_list_or_404(StudyMajor)
-    #context = {'advisee_info':advisee_info, 'major':major}
-    context = {'study_majors':study_majors}
-    ##advisor is the app, major.html is the template
-    return render(request, 'advisor/studies.html', context)
+
+
+################################################################################
+# function: advisors
+# input: 
+# processing: create list of advisor objects
+# output: render, which is an HTML page that displays the advisors
+#################################################################################
+def advisors(request):
+
+    advisors = Advisor.objects.order_by('last_name')
+    
+    context = {'advisors':advisors,}
+
+    #advisor is the name of the app, advisors.html is the template
+    return render(request, 'advisor/advisors.html', context)
+
+
+################################################################################
+# function: advisee_list
+# input: 
+# processing: create list of advisee (student) objects
+# output: render, which is an HTML page that displays the advisees (students)
+#################################################################################
+def advisee_list(request):
+    
+    advisees = Advisee.objects.order_by('last_name')
+    
+    context = {'advisees':advisees}
+
+    #advisor is the name of the app, advisee_list.html is the template
+    return render(request, 'advisor/advisee_list.html', context)
+
+
+
+
 
 def advisees_by_major(request, advisee_id):
+
     advisee_info = get_object_or_404(Advisee, pk=advisee_id)
     study_majors = get_list_or_404(StudyMajor)
     #context = {'advisee_info':advisee_info, 'major':major}
     context = {'study_majors':study_majors}
     ##advisor is the app, studies.html is the template
     return render(request, 'advisor/studies.html', context)
-
-def advisors(request):
-    # recent_student_list = Student.objects.order_by('last_name')[:5]
-    # context = {'recent_student_list':recent_student_list}
-    
-    advisees = Advisee.objects.order_by('last_name')
-    advisors = Advisor.objects.order_by('last_name')
-    study_majors = StudyMajor.objects.order_by('major_name')
-    try:
-        advisor_relationships = get_list_or_404(AdvisorRelationship)
-    except:
-        advisor_relationships = '0'
-
-
-    #advisor_list = [AdvisorRelationship() for i in range(5) ]
-    advisor_list = [get_list_or_404(AdvisorRelationship)]
-
-
-    
-    
-    
-    #for advisor in advisor_relationships:
-    #    advisor_list += advisor
-    
-    context = {'advisees':advisees, 'advisors':advisors, 'study_majors':study_majors, 'advisor_relationships':advisor_relationships, 'advisor_list':advisor_list}
-    return render(request, 'advisor/advisors.html', context)
-
-
-def advisee_list(request):
-    advisees = Advisee.objects.order_by('last_name')
-    context = {'advisees':advisees}
-
-    return render(request, 'advisor/advisee_list.html', context)
 
 
 def courses (request):
@@ -466,3 +461,12 @@ def courses (request):
     context = {'courses':courses}
 
     return render(request, 'advisor/courses.html', context)
+
+
+def studies(request):
+    
+    study_majors = get_list_or_404(StudyMajor)
+    
+    context = {'study_majors':study_majors}
+
+    return render(request, 'advisor/studies.html', context)

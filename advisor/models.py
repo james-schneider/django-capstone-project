@@ -6,7 +6,10 @@ class StudyMajor(models.Model):
     concentration = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return self.major_name + ": " + self.concentration
+        if self.concentration != "":
+            return self.major_name + ": " + self.concentration
+        return self.major_name
+
 
 # model for advisees (students)
 class Advisee(models.Model):
@@ -17,11 +20,13 @@ class Advisee(models.Model):
     semester_started = models.CharField(max_length=30, blank=True)
     grade_level = models.CharField(max_length=30, blank=True)
     cell_number = models.CharField(max_length=30, blank=True)
-
-    first_major = models.ForeignKey(StudyMajor, on_delete=models.CASCADE, null=True, blank=True)
-    #second_major = models.ForeignKey(Major, on_delete=models.CASCADE, blank=True)
-    minor = models.CharField(max_length=30, blank=True)
-    is_double_major = models.BooleanField(default=False, blank=True)
+    first_major = models.ForeignKey(StudyMajor, related_name='advisee_first_major', \
+                  on_delete=models.CASCADE, null=True, blank=True)
+    second_major = models.ForeignKey(StudyMajor, related_name='advisee_second_major', \
+                  on_delete=models.CASCADE, null=True, blank=True)
+    #concentration = models.CharField(max_length=30, blank=True)
+    #minor = models.CharField(max_length=30, blank=True)
+    #is_double_major = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         
