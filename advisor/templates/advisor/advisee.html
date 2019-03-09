@@ -6,101 +6,162 @@
 
 {% block content %}
 
+{% if user.is_authenticated %}
 
-<table class="advisor_header">
-    <th>
-        Advisor
-    </th>
-        {% if advisors %}
-        {% for advisor in advisors %}
-        <tr>
-            <td>
-                    <a href="{% url 'advisor:advisor_record' advisor.advisor.id %}" >{{ advisor.advisor }} </a>
-            </td>
-        </tr>
-        {% endfor %}
-        {% else %}
+    <table class="advisor_header">
+        <th>
+            Advisor
+        </th>
+            {% if advisors %}
+            {% for advisor in advisors %}
             <tr>
                 <td>
-                    No advisors to show.
+                        <a href="{% url 'advisor:advisor_record' advisor.advisor.id %}" >{{ advisor.advisor }} </a>
                 </td>
             </tr>
+            {% endfor %}
+            {% else %}
+                <tr>
+                    <td>
+                        No advisors to show.
+                    </td>
+                </tr>
+            {% endif %}
+        
+    </table>
+
+
+
+    <table class="student_header">
+        <th>
+            Advisee
+        </th>
+        <th>
+            Major
+        </th>
+        
+        <th>
+            Grade Level
+        </th>
+
+        <th>
+            Semester Started
+        </th>
+        <th>
+            GPA
+        </th>
+        <th>
+            Cell Phone Number
+        </th>
+        <th>
+            E-mail
+        </th>
+        <tr>
+            <td>
+                {{ advisee_info.last_name }}, {{ advisee_info.first_name }} 
+            </td>
+            <td>
+                {{ advisee_info.first_major }}
+            </td>
+            <td>
+                {{ advisee_info.grade_level }}
+            </td>
+            <td>
+                {{ advisee_info.semester_started }}
+            </td>
+
+            <td>
+                {{ gpa }}
+            </td>
+
+            <td>
+                {{ advisee_info.cell_number }}
+            </td>
+
+            <td>
+                {{ advisee_info.email }}
+            </td>
+        </tr>
+    </table>
+
+    <div>
+
+    </div>
+
+
+
+        {% comment%}
+        <!--table for the courses in major-->
+        {% endcomment %}
+
+        {% if major_courses %}
+        <table class="record_tables_left">
+            <caption>Major</caption>
+            <tr>
+                <th>Course</th>
+                <th>Grade</th>
+                <th>Hours</th>
+            </tr>
+            
+            {% comment%}<!--loop through the MajorCourseGrade model objects-->{% endcomment %}
+            {% for course in major_courses %}
+                
+            <tr>
+                <td>
+                    {% comment%}<!--course.course = the course attribute of the MajorCourseGrade model-->{% endcomment %}
+                    {% if course.course %}
+                        {{ course.course.course_no }}
+                    {% else %}
+                        TBD
+                    {% endif %}      
+                </td>
+                <td class="center_data">
+                    {% if course.grade %}
+                    {{ course.grade }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+                <td class="center_data">
+                    {% if course.course %}
+                    {{ course.course.credits }}
+                    {% else %}
+                        TBD
+                    {% endif %}
+                </td>
+            </tr>
+                
+            {% endfor %}
+            <tr>
+                <td class="total"></td>
+                <td class="total"></td>
+                <td class="total">{{ major_credits }}</td>
+            </tr>
+
+        </table>
+            
+        {% else %}
+            <p>No major courses to show.</p>
         {% endif %}
-    
-</table>
-
-
-
-<table class="student_header">
-    <th>
-        Advisee
-    </th>
-    <th>
-        Major
-    </th>
-    
-    <th>
-        Grade Level
-    </th>
-
-    <th>
-        Semester Started
-    </th>
-    <th>
-        GPA
-    </th>
-    <th>
-        Cell Phone Number
-    </th>
-    <tr>
-        <td>
-            {{ advisee_info.last_name }}, {{ advisee_info.first_name }} 
-        </td>
-        <td>
-            {{ advisee_info.first_major }}
-        </td>
-        <td>
-            {{ advisee_info.grade_level }}
-        </td>
-        <td>
-            {{ advisee_info.semester_started }}
-        </td>
-
-        <td>
-            {{ gpa }}
-        </td>
-
-        <td>
-            {{ advisee_info.cell_number }}
-        </td>
-    </tr>
-</table>
-
-<div>
-
-</div>
-
 
 
     {% comment%}
-    <!--table for the courses in major-->
+    <!--table for the courses in second major/minor-->
     {% endcomment %}
 
-    {% if major_courses %}
-    <table class="record_tables_left">
-        <caption>Major</caption>
+    {% if second_major_courses != 0 %}
+    <table class="record_tables_right">
+        <caption>Second Major/Minor</caption>
         <tr>
             <th>Course</th>
             <th>Grade</th>
             <th>Hours</th>
         </tr>
         
-        {% comment%}<!--loop through the MajorCourseGrade model objects-->{% endcomment %}
-        {% for course in major_courses %}
+        {% for course in second_major_courses %}
             
         <tr>
             <td>
-                {% comment%}<!--course.course = the course attribute of the MajorCourseGrade model-->{% endcomment %}
                 {% if course.course %}
                     {{ course.course.course_no }}
                 {% else %}
@@ -127,196 +188,153 @@
         <tr>
             <td class="total"></td>
             <td class="total"></td>
-            <td class="total">{{ major_credits }}</td>
+            <td class="total">{{ second_major_credits }}</td>
+        </tr>
+    </table>
+        
+    {% else %}
+        <p>No second major or minor courses to show.</p>
+    {% endif %}
+
+
+
+    <br>
+
+
+
+
+
+
+    {% if core_courses %}
+    <table class="record_tables_left">
+        <caption>Core</caption>
+        <tr>
+            <th>Course</th>
+            <th>Grade</th>
+            <th>Hours</th>
+        </tr>
+        
+        {% for course in core_courses %}
+            
+        <tr>
+            <td>
+                {% if course.course %}
+                    {{ course.course.course_no }}
+                {% else %}
+                    TBD
+                {% endif %}      
+            </td>
+            <td class="center_data">
+                {% if course.grade %}
+                {{ course.grade }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+            <td class="center_data">
+                {% if course.course %}
+                {{ course.course.credits }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+        </tr>
+            
+        {% endfor %}
+
+        <tr>
+            <td class="total"></td>
+            <td class="total"></td>
+            <td class="total">{{ core_credits }}</td>
+        </tr>
+    </table>
+        
+    {% else %}
+        <p>No core courses to show.</p>
+    {% endif %}
+
+
+
+    {% comment%}
+    <!--table for the courses in electives-->
+    {% endcomment %}
+
+    {% if elective_courses %}
+    <table class="record_tables_right">
+        <caption>Electives</caption>
+        <tr>
+            <th>Course</th>
+            <th>Grade</th>
+            <th>Hours</th>
+        </tr>
+        
+        {% for course in elective_courses %}
+            
+        <tr>
+            <td>
+                {% if course.course %}
+                    {{ course.course.course_no }}
+                {% else %}
+                    TBD
+                {% endif %}      
+            </td>
+            <td class="center_data">
+                {% if course.grade %}
+                {{ course.grade }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+            <td class="center_data">
+                {% if course.course %}
+                {{ course.course.credits }}
+                {% else %}
+                    TBD
+                {% endif %}
+            </td>
+        </tr>
+            
+        {% endfor %}
+        <tr>
+            <td class="total"></td>
+            <td class="total"></td>
+            <td class="total">{{ elective_credits }}</td>
         </tr>
 
     </table>
         
     {% else %}
-        <p>No major courses to show.</p>
+        <p>No elective courses to show.</p>
     {% endif %}
 
 
-{% comment%}
-<!--table for the courses in second major/minor-->
-{% endcomment %}
 
-{% if second_major_courses != 0 %}
-<table class="record_tables_right">
-    <caption>Second Major/Minor</caption>
-    <tr>
-        <th>Course</th>
-        <th>Grade</th>
-        <th>Hours</th>
-    </tr>
-    
-    {% for course in second_major_courses %}
-        
-    <tr>
-        <td>
-            {% if course.course %}
-                {{ course.course.course_no }}
-            {% else %}
-                TBD
-            {% endif %}      
-        </td>
-        <td class="center_data">
-            {% if course.grade %}
-            {{ course.grade }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-        <td class="center_data">
-            {% if course.course %}
-            {{ course.course.credits }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-    </tr>
-        
-    {% endfor %}
-    <tr>
-        <td class="total"></td>
-        <td class="total"></td>
-        <td class="total">{{ second_major_credits }}</td>
-    </tr>
-</table>
-    
+
+
+    <br><br><br>
+
+    <table class="record_tables">
+        <tr>
+            <th>
+                Total Hours
+            </th>
+        </tr>
+        <tr>
+            <td class="center_data">{{ total_credits }}</td>
+        </tr>
+    </table>
+
+    <br><br><br>
+
+
 {% else %}
-    <p>No second major or minor courses to show.</p>
+    <div>
+        <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
+    </div>
+    <p>You must log in to view this page.</p>
+    <form class="" action="{% url 'login' %}">
+        <input class="login_btn" type="submit" value="Log in" />
+    </form>
 {% endif %}
-
-
-
-<br>
-
-
-
-
-
-
-{% if core_courses %}
-<table class="record_tables_left">
-    <caption>Core</caption>
-    <tr>
-        <th>Course</th>
-        <th>Grade</th>
-        <th>Hours</th>
-    </tr>
-    
-    {% for course in core_courses %}
-        
-    <tr>
-        <td>
-            {% if course.course %}
-                {{ course.course.course_no }}
-            {% else %}
-                TBD
-            {% endif %}      
-        </td>
-        <td class="center_data">
-            {% if course.grade %}
-            {{ course.grade }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-        <td class="center_data">
-            {% if course.course %}
-            {{ course.course.credits }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-    </tr>
-        
-    {% endfor %}
-
-    <tr>
-        <td class="total"></td>
-        <td class="total"></td>
-        <td class="total">{{ core_credits }}</td>
-    </tr>
-</table>
-    
-{% else %}
-    <p>No core courses to show.</p>
-{% endif %}
-
-
-
-{% comment%}
-<!--table for the courses in electives-->
-{% endcomment %}
-
-{% if elective_courses %}
-<table class="record_tables_right">
-    <caption>Electives</caption>
-    <tr>
-        <th>Course</th>
-        <th>Grade</th>
-        <th>Hours</th>
-    </tr>
-    
-    {% for course in elective_courses %}
-        
-    <tr>
-        <td>
-            {% if course.course %}
-                {{ course.course.course_no }}
-            {% else %}
-                TBD
-            {% endif %}      
-        </td>
-        <td class="center_data">
-            {% if course.grade %}
-            {{ course.grade }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-        <td class="center_data">
-            {% if course.course %}
-            {{ course.course.credits }}
-            {% else %}
-                TBD
-            {% endif %}
-        </td>
-    </tr>
-        
-    {% endfor %}
-    <tr>
-        <td class="total"></td>
-        <td class="total"></td>
-        <td class="total">{{ elective_credits }}</td>
-    </tr>
-
-</table>
-    
-{% else %}
-    <p>No elective courses to show.</p>
-{% endif %}
-
-
-
-
-
-<br><br><br>
-
-<table class="record_tables">
-    <tr>
-        <th>
-            Total Hours
-        </th>
-    </tr>
-    <tr>
-        <td class="center_data">{{ total_credits }}</td>
-    </tr>
-</table>
-
-
-
 
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+
+
+{% block content %}
+
+<div>
+    <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
+</div>
+
+  <h2>Login Credentials</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+{% endblock %}

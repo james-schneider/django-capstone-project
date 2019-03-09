@@ -20,10 +20,15 @@ class Advisee(models.Model):
     semester_started = models.CharField(max_length=30, blank=True)
     grade_level = models.CharField(max_length=30, blank=True)
     cell_number = models.CharField(max_length=30, blank=True)
+    email = models.CharField(max_length=30, blank=True)
     first_major = models.ForeignKey(StudyMajor, related_name='advisee_first_major', \
                   on_delete=models.CASCADE, null=True, blank=True)
     second_major = models.ForeignKey(StudyMajor, related_name='advisee_second_major', \
                   on_delete=models.CASCADE, null=True, blank=True)
+    
+    # Advisor notes. Will be saved to the database.
+    notes = models.CharField(max_length=10000, null=True, blank=True)
+    
     #concentration = models.CharField(max_length=30, blank=True)
     #minor = models.CharField(max_length=30, blank=True)
     #is_double_major = models.BooleanField(default=False, blank=True)

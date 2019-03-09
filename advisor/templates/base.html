@@ -17,29 +17,37 @@
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/tables.css' %}">
 </head>
 <body>
+
     
-    <nav class="topnav" id="myTopnav">
-        <a href="" id="" > <img class="nav_logo" src="{% static 'images/MilliganBuffalo.jpg' %}"/></a>
+        <nav class="topnav" id="myTopnav">
+            <a href="" id="" > <img class="nav_logo" src="{% static 'images/MilliganBuffalo.jpg' %}"/></a>
+            {% if user.is_authenticated %}    
+                <a class="topnav-right" href="{% url 'admin:index' %}" target="blank">Admin</a>
+                <a class="topnav-right" href="{% url 'logout' %}">Log out</a>
+            {% else %}
+                <a class="topnav-right" href="{% url 'login' %}">Log in</a>
+            {% endif %}
+                <nav class="topnav-right" id="bar" >|</nav>
+                <a class="topnav-right" href="">About</a>
+                {% comment %}<!--will be used to display certain courses-->
+                <a class="topnav-right" href="{% url 'advisor:courses' %}">Courses</a>
+                {% endcomment %}
+                <a class="topnav-right" href="{% url 'advisor:advisee_list' %}">Advisees</a>
+                <a class="topnav-right" href="{% url 'advisor:advisors' %}">Advisors</a>
+                <a class="topnav-right" href="{% url 'advisor:index' %}">Home</a>
             
-            <a class="topnav-right" href="">About</a>
-            {% comment %}<!--will be used to display certain courses-->
-            <a class="topnav-right" href="{% url 'advisor:courses' %}">Courses</a>
-            {% endcomment %}
-            <a class="topnav-right" href="{% url 'advisor:advisee_list' %}">Advisees</a>
-            <a class="topnav-right" href="{% url 'advisor:advisors' %}">Advisors</a>
-            <a class="topnav-right" href="{% url 'advisor:index' %}">Home</a>
-          
-    </nav>
+        </nav>
 
-<div class="body_width">
-    <section>
-        <h1></h1>
-        <div></div>
-    </section>
+    <div class="body_width">
+        <section>
+            <h1></h1>
+            <div></div>
+        </section>
 
-    {% block content %}
+        
+        {% block content %}
 
-    {% endblock %}
+        {% endblock %}
 
 
 <footer>

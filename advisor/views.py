@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.template import loader
 from django.http import HttpResponse
+from.forms import Notes
 
 from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         ElectiveCourse, Advisee, Advisor, 
@@ -372,6 +373,11 @@ def advisee(request, advisee_id):
     
     # title that is going to show up in the browser tab
     title=advisee_info.first_name + " " + advisee_info.last_name
+    
+    # form that will be used for advisor notes
+    #form = Notes(request.POST or None)
+    #if form.is_valid():
+    #    form.save()
     
     # context is a dictionary of values that is sent with the render request.
     # It includes all of the variables that you want to use on the html page
