@@ -34,13 +34,15 @@
             </table>
 
     {% else %}
-        <div>
+            
+        <div class="">
             <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
         </div>
         <p>You must log in to view this page.</p>
         <form class="" action="{% url 'login' %}">
-            <input class="login_btn" type="submit" value="Log in" />
+            <input class="login_btn" type="submit" value="LOG IN" />
         </form>
+        
     {% endif %}   
 
 

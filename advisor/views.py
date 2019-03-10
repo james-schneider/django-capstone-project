@@ -426,7 +426,10 @@ def advisors(request):
 
     advisors = Advisor.objects.order_by('last_name')
     
-    context = {'advisors':advisors,}
+    #title for web page metadata
+    title = 'Advisors'
+    
+    context = {'advisors':advisors, 'title':title}
 
     #advisor is the name of the app, advisors.html is the template
     return render(request, 'advisor/advisors.html', context)
@@ -442,7 +445,10 @@ def advisee_list(request):
     
     advisees = Advisee.objects.order_by('last_name')
     
-    context = {'advisees':advisees}
+    #title for web page metadata
+    title = 'Advisees'
+    
+    context = {'advisees':advisees, 'title':title}
 
     #advisor is the name of the app, advisee_list.html is the template
     return render(request, 'advisor/advisee_list.html', context)

@@ -12,10 +12,11 @@
     <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
 </div>
 
-  <h2>Login Credentials</h2>
+<div class="login">
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Login</button>
+    <button class="login_btn" type="submit">LOG IN</button>
   </form>
+</div>
 {% endblock %}
