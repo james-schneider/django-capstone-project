@@ -1,13 +1,14 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.template import loader
 from django.http import HttpResponse
-from.forms import Notes
+from.forms import NoteForm
 
 from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         ElectiveCourse, Advisee, Advisor, 
                         Instructor, MajorCourseGrade, SecondMajorCourseGrade,
                         CoreCourseGrade, ElectiveCourseGrade,
-                        GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor)
+                        GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor,
+                        Note)
 
 # original index view.  Not going to use it, but leaving it here for
 # information only.
@@ -374,10 +375,19 @@ def advisee(request, advisee_id):
     # title that is going to show up in the browser tab
     title=advisee_info.first_name + " " + advisee_info.last_name
     
-    # form that will be used for advisor notes
-    #form = Notes(request.POST or None)
-    #if form.is_valid():
-    #    form.save()
+    
+    # notes that will be used for advisor notes
+    try: 
+        notes = get_list_or_404(Note, advisee_id=advisee_id)
+        #notes = get_list_or_404(Note)
+    except:
+        notes = "None"
+    
+    form = NoteForm(request.POST or None)
+    if form.is_valid():
+        save_it = form.save(commit=False)
+        save_it.save()
+    
     
     # context is a dictionary of values that is sent with the render request.
     # It includes all of the variables that you want to use on the html page
@@ -388,11 +398,14 @@ def advisee(request, advisee_id):
                 'advisors':advisors, 'gpa':gpa, 'major_credits':major_credits, \
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
-                'title':title}
+                'title':title, 'notes':notes, 'form':form}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)
 
+    
+    
+    
 
 
 ################################################################################

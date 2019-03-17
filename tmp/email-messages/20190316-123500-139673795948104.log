@@ -1,0 +1,25 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Password reset on 127.0.0.1:8000
+From: webmaster@localhost
+To: james.rice.schneider@gmail.com
+Date: Sat, 16 Mar 2019 16:35:00 -0000
+Message-ID: <155275410037.10100.15847090202728501107@ubuntu>
+
+
+You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:8000/accounts/reset/Mg/54o-d389d3c73b998a92eff4/
+
+Your username, in case you've forgotten: james2
+
+Thanks for using our site!
+
+The 127.0.0.1:8000 team
+
+
+
+-------------------------------------------------------------------------------

@@ -202,7 +202,14 @@ class AdvisorRelationship(models.Model):
         return str(self.advisor) + " ---> " + str(self.advisee)
 
 
+class Note(models.Model):
+    advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
+    text = models.CharField(max_length=120, null=True, blank=True)
+    #created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
+    def __str__(self):
+
+        return str(self.advisee) + ": " + str(self.text)
 
 
 

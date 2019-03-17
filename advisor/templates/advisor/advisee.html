@@ -327,6 +327,37 @@
     <br><br><br>
 
 
+    <h2>Notes</h2>
+    <ul>
+        {% if notes != None %}
+            {% for note in notes %}
+ 	        <li>{{ note.text }}</li>
+            {% endfor %}
+        {% else %}
+            <li>No notes yet.</li>
+        {% endif %}
+    </ul>
+
+    {% comment%}
+    <!--the form below will be used for adding notes while
+        inside the advisee's record
+    This form still needs some work.  For the time being,
+    notes can be added from the Django admin site.-->
+    
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add New Note">
+        </form>
+    {% endcomment %}
+
+
+
+
+
+{% comment%}
+    <!--the below section will be displayed if user is not logged in-->
+{% endcomment %}    
 {% else %}
     <div>
         <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>
