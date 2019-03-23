@@ -106,14 +106,6 @@ def advisee(request, advisee_id):
     gpa_elective_credits = 0.0
     gpa_total_credits = 0.0
 
-    # initialize variables used to track quality points
-    # in different course categories
-    major_quality_points = 0.0
-    second_major_quality_points = 0.0
-    minor_quality_points = 0.0
-    core_quality_points = 0.0
-    elective_quality_points = 0.0
-    total_quality_points = 0.0
     
     # initialize variables used to track quality points for GPA
     # in different course categories
@@ -123,6 +115,10 @@ def advisee(request, advisee_id):
     gpa_core_quality_points = 0.0
     gpa_elective_quality_points = 0.0
     gpa_total_quality_points = 0.0
+
+    # initialize variable used to track developmental credits
+    # this variable will be subtracted from credits needed for graduation
+    developmental_credits = 0.0
     
     
     # initialize gpa variable. Used to calculate an advisee's GPA
@@ -132,9 +128,8 @@ def advisee(request, advisee_id):
 
     
     if major_courses != "0":
-        grade = ''
         quality_points = 0.0
-        # loop through all of the core courses to find out how many
+        # loop through all of the major courses to find out how many
         # credits have been earned and calculate GPA
         for course in major_courses:
             if course.grade in grade_choices:
@@ -165,20 +160,26 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
+                
+                # variable used to calculate GPA
                 gpa_major_credits+=course.course.credits
-
+                # variable used to calculate GPA
                 gpa_major_quality_points+=quality_points
+                
+                # reset quality points for calculation in next course
+                quality_points = 0.0
+
+            if course.course.is_developmental == True:
+                developmental_credits += course.course.credits
 
             major_credits+=course.course.credits
 
-            major_quality_points+=quality_points
             
 
 
     if second_major_courses != "0":
-        grade = ''
         quality_points = 0.0
-        # loop through all of the core courses to find out how many
+        # loop through all of the second major courses to find out how many
         # credits have been earned and calculate GPA
         for course in second_major_courses:
             if course.grade in grade_choices:
@@ -212,11 +213,17 @@ def advisee(request, advisee_id):
                 gpa_second_major_credits+=course.course.credits
 
                 gpa_second_major_quality_points+=quality_points
+
+                # reset quality points for calculation in next course
+                quality_points = 0.0
+
+            if course.course.is_developmental == True:
+                developmental_credits += course.course.credits
             
             second_major_credits+=course.course.credits
 
-            second_major_quality_points+=quality_points
-            
+
+                        
        
     # not using the MinorCourses model.  Including minor courses
     # and other information in the SecondMajor model.
@@ -264,7 +271,6 @@ def advisee(request, advisee_id):
       
     
     if core_courses != "0":
-        grade = ''
         quality_points = 0.0
         # loop through all of the core courses to find out how many
         # credits have been earned and calculate GPA
@@ -298,21 +304,24 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
-                # varibles to be used to calculate GPA
+                # variables to be used to calculate GPA
                 gpa_core_credits+=course.course.credits
-                # varibles to be used to calculate GPA
+                # variables to be used to calculate GPA
                 gpa_core_quality_points+=quality_points
 
-            # varibles to be used to calculate credits--not included in GPA
+                # reset quality points for calculation in next course
+                quality_points = 0.0
+
+            if course.course.is_developmental == True:
+                developmental_credits += course.course.credits
+
+            # variables to be used to calculate credits--not included in GPA
             core_credits+=course.course.credits
-            # varibles to be used to calculate quality points--not included in GPA
-            core_quality_points+=quality_points
         
 
     if elective_courses != "0":
-        grade = ''
         quality_points = 0.0
-        # loop through all of the core courses to find out how many
+        # loop through all of the elective courses to find out how many
         # credits have been earned and calculate GPA
         for course in elective_courses:
             if course.grade in grade_choices:
@@ -343,28 +352,35 @@ def advisee(request, advisee_id):
                 elif course.grade == 'F':
                     quality_points += course.course.credits * 0.0
 
-                # varible used to calculate GPA
+                # variable used to calculate GPA
                 gpa_elective_credits+=course.course.credits
-                # varible used to calculate GPA
+                # variable used to calculate GPA
                 gpa_elective_quality_points+=quality_points
 
-            # varible used to calculate credits--not included in GPA
+                # reset quality points for calculation in next course
+                quality_points = 0.0
+
+            if course.course.is_developmental == True:
+                developmental_credits += course.course.credits
+
+            # variable used to calculate credits--not included in GPA
             elective_credits+=course.course.credits
-            # varible used to calculate quality points--not included in GPA
-            elective_quality_points+=quality_points
+
 
     # variable used for displaying total credits of all courses
+    # developmental course credits will be subtraced
     total_credits = (major_credits + second_major_credits + minor_credits \
-                    + core_credits + elective_credits)
+                    + core_credits + elective_credits - developmental_credits)
 
     # variable used for calculating credits--used in GPA calculation
     gpa_total_credits = (gpa_major_credits + gpa_second_major_credits + gpa_minor_credits \
                     + gpa_core_credits + gpa_elective_credits)
-    # variable used for calculating quality--used in GPA calculation
+    # variable used for calculating quality points--used in GPA calculation
     gpa_total_quality_points = (gpa_major_quality_points + gpa_second_major_quality_points + \
                         gpa_minor_quality_points + gpa_core_quality_points + gpa_elective_quality_points)
             
     # calculate GPA, else gpa = "TBD"
+    # GPA includes developmental courses
     try:
         gpa = round((gpa_total_quality_points / gpa_total_credits), 3)
     except: gpa = "TBD"
@@ -381,8 +397,10 @@ def advisee(request, advisee_id):
         notes = get_list_or_404(Note, advisee_id=advisee_id)
         #notes = get_list_or_404(Note)
     except:
-        notes = "None"
+        notes = ""
     
+    # this is the form that is going to be used for
+    # adding notes.
     form = NoteForm(request.POST or None)
     if form.is_valid():
         save_it = form.save(commit=False)
@@ -421,8 +439,11 @@ def advisor_record(request, advisor_id):
     
     advisee_list = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
     advisor = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)[0]
+
+    # title that is going to show up in the browser tab
+    title = advisor.advisor.first_name + " " + advisor.advisor.last_name
     
-    context = {'advisee_list':advisee_list, 'advisor':advisor}
+    context = {'advisee_list':advisee_list, 'advisor':advisor, 'title':title}
     
     #advisor is the name of the app, advisor_record.html is the template
     return render(request, 'advisor/advisor_record.html', context)

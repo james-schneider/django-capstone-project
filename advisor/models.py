@@ -79,6 +79,7 @@ class MajorCourse(models.Model):
     course_name = models.CharField(max_length=100)
     credits = models.FloatField(max_length=10, blank=True, null=True)
     instructor_name = models.CharField(max_length=100, blank=True)
+    is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
@@ -89,6 +90,7 @@ class SecondMajorCourse(models.Model):
     course_name = models.CharField(max_length=100)
     credits = models.FloatField(max_length=10, blank=True, null=True)
     instructor_name = models.CharField(max_length=100, blank=True)
+    is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
@@ -109,6 +111,7 @@ class CoreCourse(models.Model):
     course_name = models.CharField(max_length=100)
     credits = models.FloatField(max_length=10, blank=True, null=True)
     instructor_name = models.CharField(max_length=100, blank=True)
+    is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
@@ -119,6 +122,7 @@ class ElectiveCourse(models.Model):
     course_name = models.CharField(max_length=100)
     credits = models.FloatField(max_length=10, blank=True, null=True)
     instructor_name = models.CharField(max_length=100, blank=True)
+    is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
