@@ -324,13 +324,36 @@
             <td class="center_data">{{ total_credits }}</td>
         </tr>
     </table>
-    <p class="footnote"><strong>*</strong> Developmental courses with course numbers less than 100 are not
-                                            included in the 128 hours needed for graduation, 
-                                            but they are included in GPA. </p>
+    <p class="footnote"><strong>*</strong> Developmental courses with 
+        course numbers less than 100 are not included in the 128 hours
+        needed for graduation, but they are included in GPA.
+    </p>
 
     <br>
 
+    <table class="double_dip_table">
+        <th>Double-dip** = {{ double_dip_count }}</th>
+        {% for course in in_major_and_second_major_list %}
+            {% if double_dip_count == 0 %}
+                <tr>
+                    <td>N/A</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{ course }}</td>
+                </tr>
+            {% endif%}
+        {% endfor %}
+    </table>
+    <div>
+    <p class ="footnote"><strong>**</strong> After double-dipping three courses, 
+        additional courses that would normally count in both a major and 
+        second major/minor are only counted once.
+    </p>
+    </div>
 
+
+    <div id="notes">
     <h2>Notes</h2>
     <ul>
         {% if notes != None %}
@@ -341,10 +364,13 @@
             <li>No notes yet.</li>
         {% endif %}
     </ul>
+    </div>
+
+
 
     {% comment%}
-    <!--the form below will be used for adding notes while
-        inside the advisee's record
+    <!--The form below will be used for adding notes while
+    inside the advisee's record.
     This form still needs some work.  For the time being,
     notes can be added from the Django admin site.-->
     

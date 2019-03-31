@@ -367,6 +367,42 @@ def advisee(request, advisee_id):
             elective_credits+=course.course.credits
 
 
+    # logic for 'double dipping'. A student can count up to three courses
+    # in both a major, double major and/or minor.
+    # However, they only get the grade and credit hours for one instance.
+    major_course_list = []
+    second_major_course_list = []
+    elective_course_list = []
+    in_major_and_second_major_list = []
+    
+    if major_courses != '0':
+        for course in major_courses:
+            major_course_list.append(course.course.course_no)
+
+    if second_major_courses != '0':
+        for course in second_major_courses:
+            second_major_course_list.append(course.course.course_no)
+
+    if elective_courses != '0':
+        for course in elective_courses:
+            elective_course_list.append(course.course.course_no)
+    
+    for course in major_course_list:
+        if course in second_major_course_list:
+            in_major_and_second_major_list.append(course)
+
+    double_dip_count = 0
+    for item in in_major_and_second_major_list:
+        double_dip_count +=1
+
+    
+
+
+
+    
+        
+
+
     # variable used for displaying total credits of all courses
     # developmental course credits will be subtraced
     total_credits = (major_credits + second_major_credits + minor_credits \
@@ -416,7 +452,8 @@ def advisee(request, advisee_id):
                 'advisors':advisors, 'gpa':gpa, 'major_credits':major_credits, \
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
-                'title':title, 'notes':notes, 'form':form}
+                'title':title, 'notes':notes, 'form':form, 'major_course_list':major_course_list, \
+                'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)

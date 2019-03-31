@@ -185,7 +185,7 @@ table.record_tables_right td :nth-child(even) {
     border: 1px solid gainsboro;
 }
 
-table.majors_table, table.advisors_table {
+table.majors_table, table.advisors_table, table.double_dip_table {
     border: 1px solid gray;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -235,4 +235,25 @@ td.total {
     text-align: center;
     font-weight: bold;
     border: none;
+}
+
+.double_dip_table {
+    float: left;
+}
+
+.double_dip_table th {
+    background: rgb(240,240,240);
+    font-size: 16px;
+}
+
+.double_dip_table td {
+    min-width: 150px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: 1px solid lightgray;
+    padding:5px;
+}
+
+div#notes {
+    clear:left;
 }
