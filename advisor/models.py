@@ -215,6 +215,20 @@ class Note(models.Model):
 
         return str(self.advisee) + ": " + str(self.text)
 
+class FutureCourse(models.Model):
+    advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
+    course_no = models.CharField(max_length=20)
+    course_name = models.CharField(max_length=100)
+    course_term = models.CharField(max_length=10, blank=True, null=True)
+    course_year = models.CharField(max_length=10, blank=True, null=True)
+    credits = models.FloatField(max_length=10, blank=True, null=True)
+    instructor_name = models.CharField(max_length=100, blank=True, null=True)
+    is_developmental = models.BooleanField(default=False, blank=True)
+
+    
+    def __str__(self):
+        return self.course_no + " - " + self.course_name + " - " + self.advisee.last_name + ", " + self.advisee.first_name
+
 
 
 

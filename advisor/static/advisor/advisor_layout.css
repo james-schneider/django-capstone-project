@@ -6,7 +6,7 @@ body {
     min-height: 100%;
     margin: 0;
     background-color: white;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 
@@ -52,7 +52,7 @@ nav a {
     text-decoration: none;
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 nav a:hover {
@@ -103,7 +103,7 @@ input {
 }
 
 nav#bar {
-    font-size: 18px;
+    font-size: 14px;
     color: black;
 }
 
@@ -133,7 +133,24 @@ p {
 }
 
 div.footnote {
-    font-size: 14px;
+    font-size: 12px;
     text-align: left;
     clear: left;
+}
+
+span#beta_version {
+    color:red;
+    background: yellow;
+    padding: 20px 15px;
+    border-radius: 50%;
+}
+
+span#double_dip_asterisk {
+    color: rgb(234,113,37);
+}
+
+div#notes {
+    border: 1px solid gray;
+    padding: 5px;
+    margin: 20px 0;
 }

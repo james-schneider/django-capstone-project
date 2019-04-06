@@ -5,7 +5,7 @@ from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         Instructor, MajorCourseGrade, SecondMajorCourseGrade,
                         CoreCourseGrade, ElectiveCourseGrade,
                         GradeChoice, CourseCredit, AdvisorRelationship, StudyMajor,
-                        Note)
+                        Note, FutureCourse)
 
 admin.site.register(MajorCourse)
 admin.site.register(SecondMajorCourse)
@@ -26,4 +26,5 @@ admin.site.register(SecondMajorCourseGrade)
 #admin.site.register(MinorCourseGrade)
 admin.site.register(ElectiveCourseGrade)
 admin.site.register(Note)
+admin.site.register(FutureCourse)
 

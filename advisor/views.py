@@ -8,7 +8,7 @@ from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         Instructor, MajorCourseGrade, SecondMajorCourseGrade,
                         CoreCourseGrade, ElectiveCourseGrade,
                         GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor,
-                        Note)
+                        Note, FutureCourse)
 
 # original index view.  Not going to use it, but leaving it here for
 # information only.
@@ -86,6 +86,11 @@ def advisee(request, advisee_id):
         elective_courses = get_list_or_404(ElectiveCourseGrade, advisee_id=advisee_id)
     except:
         elective_courses = "0"
+
+    try:
+        future_courses = get_list_or_404(FutureCourse, advisee_id=advisee_id)
+    except:
+        future_courses = "0"
     
 
     # initialize variables used to track credits
@@ -435,12 +440,18 @@ def advisee(request, advisee_id):
     except:
         notes = ""
     
+    # Not being used yet---------------------------------------
+    # ---------------------------------------------------------
     # this is the form that is going to be used for
     # adding notes.
     form = NoteForm(request.POST or None)
     if form.is_valid():
         save_it = form.save(commit=False)
         save_it.save()
+    #-----------------------------------------------------------
+
+
+    
     
     
     # context is a dictionary of values that is sent with the render request.
@@ -453,7 +464,8 @@ def advisee(request, advisee_id):
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
                 'title':title, 'notes':notes, 'form':form, 'major_course_list':major_course_list, \
-                'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count}
+                'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count,
+                'future_courses':future_courses}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)
@@ -508,7 +520,7 @@ def advisors(request):
 
 ################################################################################
 # function: advisee_list
-# input: 
+# input: page request
 # processing: create list of advisee (student) objects
 # output: render, which is an HTML page that displays the advisees (students)
 #################################################################################
@@ -524,6 +536,22 @@ def advisee_list(request):
     #advisor is the name of the app, advisee_list.html is the template
     return render(request, 'advisor/advisee_list.html', context)
 
+
+################################################################################
+# function: about
+# input: page request
+# processing: none
+# output: render, which is an HTML page that displays the About page info
+#################################################################################
+def about(request):
+
+    #title for web page metadata
+    title = 'About'
+
+    context = {'title':title}
+
+    #advisor is the name of the app, about.html is the template
+    return render(request, 'advisor/about.html', context)
 
 
 

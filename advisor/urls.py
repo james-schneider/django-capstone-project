@@ -29,6 +29,9 @@ urlpatterns = [
     # ex: /advisor/courses
     path('courses/', views.courses, name='courses'),
 
+    # ex: /advisor/about
+    path('about/', views.about, name='about'),
+
 ] 
 
 #+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -332,7 +332,8 @@
     <br>
 
     <table class="double_dip_table">
-        <th>Double-dip** = {{ double_dip_count }}</th>
+        <caption>Double Dip**</caption>
+        <th>Courses = {{ double_dip_count }}</th>
         {% for course in in_major_and_second_major_list %}
             {% if double_dip_count == 0 %}
                 <tr>
@@ -346,12 +347,12 @@
         {% endfor %}
     </table>
     <div>
-    <p class ="footnote"><strong>**</strong> After double-dipping three courses, 
+    <p class ="footnote"><span id="double_dip_asterisk">**</span> After double-dipping three courses, 
         additional courses that would normally count in both a major and 
         second major/minor are only counted once.
     </p>
     </div>
-
+    </br>
 
     <div id="notes">
     <h2>Notes</h2>
@@ -364,6 +365,52 @@
             <li>No notes yet.</li>
         {% endif %}
     </ul>
+    </div>
+
+    <div id="future">
+        {% if future_courses %}
+            <table class="record_tables_left">
+                <caption>Future</caption>
+                <tr>
+                    <th>Course</th>
+                    <th>Term</th>
+                    <th>Year</th>
+                </tr>
+        
+                {% for course in future_courses %}
+            
+                <tr>
+                    <td>
+                        {% if course %}
+                            {{ course.course_no }}
+                        {% else %}
+                            TBD
+                        {% endif %}      
+                    </td>
+                    <td>
+                        {% if course %}
+                            {{ course.course_term }}
+                        {% else %}
+                            TBD
+                        {% endif %}      
+                    </td>
+                    <td>
+                        {% if course %}
+                            {{ course.course_year }}
+                        {% else %}
+                            TBD
+                        {% endif %}      
+                    </td>
+
+                </tr>
+            
+        {% endfor %}
+
+    </table>
+        
+    {% else %}
+        <p>No future core courses to show.</p>
+    {% endif %}
     </div>
 
 

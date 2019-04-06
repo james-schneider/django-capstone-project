@@ -239,11 +239,14 @@ td.total {
 
 .double_dip_table {
     float: left;
+    margin-right: 10px;
+    min-width: 150px;
 }
 
 .double_dip_table th {
     background: rgb(240,240,240);
     font-size: 16px;
+    min-width: 150px;
 }
 
 .double_dip_table td {
