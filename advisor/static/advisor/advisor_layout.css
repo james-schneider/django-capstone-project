@@ -132,10 +132,16 @@ p {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-div.footnote {
-    font-size: 12px;
+span.footnote {
+    font-size: 14px;
     text-align: left;
     clear: left;
+    color: #484848;
+}
+
+span#footnote {
+    font-size: 14px;
+    color: #484848;
 }
 
 span#beta_version {
@@ -149,8 +155,21 @@ span#double_dip_asterisk {
     color: rgb(234,113,37);
 }
 
-div#notes {
+div.notes {
     border: 1px solid gray;
     padding: 5px;
-    margin: 20px 0;
+    margin-top: 10px;
+    float: left;
+    clear: left;
+    width: 100%;
+}
+
+span#true {
+    background: #2E8B57;
+    color: white;
+}
+
+span#false {
+    background: #FFD700;
+    color: black;
 }

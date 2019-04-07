@@ -62,6 +62,40 @@ def advisee(request, advisee_id):
     except:
         major_courses = "0"
 
+    major_requirements_met = False
+
+    # list of courses required for CIS major
+    required_for_CIS_major = ['CIS 175', 'CIS 201', 'CIS 211', 'CIS 297', 'CIS 301',
+                                'CIS 305', 'CIS 310', 'CIS 318', 'CIS 341', 'CIS 420',
+                                'CIS 450']
+    
+    # list of math courses for CIS major.  Only one is required.
+    math_for_CIS_major = ['MATH 211', 'MATH 213', 'MATH 302']
+
+    # list of electives for CIS major.  Only two are required.
+    electives_for_CIS_major = ['ACCT 211', 'ACCT 430', 'CIS 285', 'CIS 401', 'CIS 495',
+                                'CS 287', 'CS 313', 'CS 315', 'CS 418', 'CS 430']
+
+    required_for_CIS_major_counter = 0
+    math_for_CIS_major_counter = 0
+    electives_for_CIS_major_counter = 0
+
+
+    if major_courses != "0":
+        if advisee_info.first_major == 'CIS':
+            for course in major_courses:
+                if course.course.course_no in required_for_CIS_major:
+                    required_for_CIS_major_counter += 1
+                if course.course.course_no in math_for_CIS_major:
+                    math_for_CIS_major_counter += 1
+                if course.course.course_no in electives_for_CIS_major:
+                    electives_for_CIS_major_counter += 1
+        
+            if required_for_CIS_major_counter >= 11 and math_for_CIS_major_counter >=1 and \
+                electives_for_CIS_major_counter >= 2:
+                major_requirements_met = True
+
+
     # list of course grades from the SecondMajorCourseGrade model in models.py
     try: 
         second_major_courses = get_list_or_404(SecondMajorCourseGrade, advisee_id=advisee_id)
@@ -429,10 +463,9 @@ def advisee(request, advisee_id):
     #variable used to display the advisor of the individual advisee
     advisors = get_list_or_404(AdvisorRelationship, advisee_id=advisee_id)
     
-    # title that is going to show up in the browser tab
-    title=advisee_info.first_name + " " + advisee_info.last_name
-    
-    
+
+
+
     # notes that will be used for advisor notes
     try: 
         notes = get_list_or_404(Note, advisee_id=advisee_id)
@@ -452,7 +485,8 @@ def advisee(request, advisee_id):
 
 
     
-    
+    # title that is going to show up in the browser tab
+    title=advisee_info.first_name + " " + advisee_info.last_name
     
     # context is a dictionary of values that is sent with the render request.
     # It includes all of the variables that you want to use on the html page
@@ -465,7 +499,7 @@ def advisee(request, advisee_id):
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
                 'title':title, 'notes':notes, 'form':form, 'major_course_list':major_course_list, \
                 'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count,
-                'future_courses':future_courses}
+                'future_courses':future_courses, 'major_requirements_met':major_requirements_met}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)

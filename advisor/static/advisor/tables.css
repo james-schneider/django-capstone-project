@@ -5,7 +5,7 @@ table {
     float: none;
     margin: 15px;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -121,7 +121,7 @@ table.record_tables_left {
     border: 1px solid gray;
     float: left;
     width: 45%;
-    /*clear: both;*/
+    clear: left;
 }
 
 table.record_tables_left td :nth-child(even) {
@@ -239,8 +239,10 @@ td.total {
 
 .double_dip_table {
     float: left;
+    clear: left;
     margin-right: 10px;
     min-width: 150px;
+    max-width: 500px;
 }
 
 .double_dip_table th {
@@ -255,6 +257,21 @@ td.total {
     margin-right: 5px;
     border: 1px solid lightgray;
     padding:5px;
+}
+#total_table {
+    width: 100%;
+    margin-left:0;
+    margin-right: 0;
+}
+
+#total_table th {
+    background: gainsboro;
+    color: black;
+    width: ;
+}
+
+#total_table td {
+    width: 100%;
 }
 
 div#notes {
