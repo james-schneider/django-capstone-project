@@ -76,13 +76,45 @@ def advisee(request, advisee_id):
     electives_for_CIS_major = ['ACCT 211', 'ACCT 430', 'CIS 285', 'CIS 401', 'CIS 495',
                                 'CS 287', 'CS 313', 'CS 315', 'CS 418', 'CS 430']
 
+    # list of courses required for CIS-M major
+    required_for_CISM_major = ['CIS 175M', 'CIS 201M', 'CIS 211M', 'CIS 297M', 'CIS 301M',
+                                'CIS 305M', 'CIS 310M', 'CIS 318M', 'CIS 341M', 'CIS 420M',
+                                'CIS 450M']
+    
+    # list of math courses for CIS-M major. Only one is required.
+    math_for_CISM_major = ['MATH 213M']
+
+    # list of electives for CIS-M major.  Only two are required.
+    electives_for_CISM_major = ['CIS 285M', 'CIS 401M', 'CIS 491M', 'CIS 495M'
+                                'CS 315M', 'CS 418M', 'CS 430M']
+
+    # list of courses required for CS major
+    required_for_CS_major = ['CS 201', 'CS 211', 'CS 287' 'CS 297', 'CS 301',
+                            'CS 313', 'CS 350', 'CS 420', 'CS 430', 'CS 440']
+    
+    # list of math courses for CS major.  Only two are required.
+    math_for_CS_major = ['MATH 211', 'MATH 213', 'MATH 302']
+
+    # list of electives for CS major.  Only two are required. 
+    electives_for_CS_major = ['CIS 310', 'CIS 401', 'CIS 450', 'CS 315', 'CS 418',
+                            'CS 491', 'CS 495', 'MATH 212']
+
+
     required_for_CIS_major_counter = 0
     math_for_CIS_major_counter = 0
     electives_for_CIS_major_counter = 0
 
+    required_for_CISM_major_counter = 0
+    math_for_CISM_major_counter = 0
+    electives_for_CISM_major_counter = 0
 
+    required_for_CS_major_counter = 0
+    math_for_CS_major_counter = 0
+    electives_for_CS_major_counter = 0
+
+    # determine if major requirements have been met
     if major_courses != "0":
-        if advisee_info.first_major == 'CIS':
+        if advisee_info.first_major.major_name == 'CIS':
             for course in major_courses:
                 if course.course.course_no in required_for_CIS_major:
                     required_for_CIS_major_counter += 1
@@ -91,8 +123,37 @@ def advisee(request, advisee_id):
                 if course.course.course_no in electives_for_CIS_major:
                     electives_for_CIS_major_counter += 1
         
-            if required_for_CIS_major_counter >= 11 and math_for_CIS_major_counter >=1 and \
+            if required_for_CIS_major_counter >= 11 and math_for_CIS_major_counter >= 1 and \
                 electives_for_CIS_major_counter >= 2:
+                major_requirements_met = True
+        
+        # advisee_info is an object from the Advisee Model
+        # first_major is the is a variable from the Advisee Model
+        # major_name is a variable of the StudyMajor Model, which is
+        # a foreign key of the Advisee Model
+        elif advisee_info.first_major.major_name == 'CIS-M':
+            for course in major_courses:
+                if course.course.course_no in required_for_CISM_major:
+                    required_for_CISM_major_counter += 1
+                if course.course.course_no in math_for_CISM_major:
+                    math_for_CISM_major_counter += 1
+                if course.course.course_no in electives_for_CISM_major:
+                    electives_for_CISM_major_counter += 1
+        
+            if required_for_CISM_major_counter >= 11 and math_for_CISM_major_counter >= 1 and electives_for_CISM_major_counter >= 2:
+                major_requirements_met = True
+
+        elif advisee_info.first_major.major_name == 'CS':
+            for course in major_courses:
+                if course.course.course_no in required_for_CS_major:
+                    required_for_CS_major_counter += 1
+                if course.course.course_no in math_for_CS_major:
+                    math_for_CS_major_counter += 1
+                if course.course.course_no in electives_for_CS_major:
+                    electives_for_CS_major_counter += 1
+        
+            if required_for_CS_major_counter >= 10 and math_for_CS_major_counter >= 2 and \
+                electives_for_CS_major_counter >= 2:
                 major_requirements_met = True
 
 
@@ -484,6 +545,7 @@ def advisee(request, advisee_id):
     #-----------------------------------------------------------
 
 
+    required_for_CISM_major_counter
     
     # title that is going to show up in the browser tab
     title=advisee_info.first_name + " " + advisee_info.last_name

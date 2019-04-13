@@ -161,15 +161,27 @@ div.notes {
     margin-top: 10px;
     float: left;
     clear: left;
-    width: 100%;
+    width: 99%;
 }
 
 span#true {
-    background: #2E8B57;
-    color: white;
+    color: #484848;
+    font-size: 14px;
 }
 
 span#false {
-    background: #FFD700;
-    color: black;
+    color: #484848;
+    font-size: 14px;
+}
+
+#red_x {
+    width: 14px;
+    padding-right: 3px;
+    padding-top: 3px;
+}
+
+#green_check {
+    width: 14px;
+    padding-right: 3px;
+    padding-top: 3px;
 }

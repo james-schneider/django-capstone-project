@@ -139,10 +139,14 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    {% if major_requirements_met is True %}
+                    {% if major_requirements_met == True %}
+                        <img id="green_check" src="{% static 'images/green_check.png' %}"/>
                         <span id="true">Major requirements have been met</span>
+                        
                     {% else %}
-                    <span id="false">Major requirements have NOT been met</span> 
+                        <img id="red_x" src="{% static 'images/red_x.png' %}"/>
+                        <span id="false">Major requirements have NOT been met</span>
+                        
                     {% endif %}
                 </td>
             </tr>
@@ -152,6 +156,7 @@
         {% else %}
             <p>No major courses to show.</p>
         {% endif %}
+
 
 
     {% comment%}
@@ -342,7 +347,20 @@
 
     <br>
 
-    <table class="double_dip_table">
+    <div class="notes">
+        <h2>Notes</h2>
+        <ul>
+            {% if notes != None %}
+                {% for note in notes %}
+                 <li>{{ note.text }}</li>
+                {% endfor %}
+            {% else %}
+                <li>No notes yet.</li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <table class="record_tables_right">
         <caption>Double Dip**</caption>
         <th>Courses = {{ double_dip_count }}</th>
         {% for course in in_major_and_second_major_list %}
@@ -368,18 +386,7 @@
    
     </br></br>
 
-    <div class="notes">
-    <h2>Notes</h2>
-    <ul>
-        {% if notes != None %}
-            {% for note in notes %}
- 	        <li>{{ note.text }}</li>
-            {% endfor %}
-        {% else %}
-            <li>No notes yet.</li>
-        {% endif %}
-    </ul>
-    </div>
+    
 
     <div id="future">
         {% if future_courses %}

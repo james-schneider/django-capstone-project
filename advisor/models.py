@@ -77,7 +77,7 @@ class GradeChoice(models.Model):
 class MajorCourse(models.Model):
     course_no = models.CharField(max_length=20)
     course_name = models.CharField(max_length=100)
-    credits = models.FloatField(max_length=10, blank=True, null=True)
+    credits = models.FloatField(max_length=10, default=3.0)
     instructor_name = models.CharField(max_length=100, blank=True)
     is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)

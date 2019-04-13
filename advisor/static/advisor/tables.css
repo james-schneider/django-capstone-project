@@ -210,6 +210,7 @@ table.majors_table td, table.advisors_table td {
     margin-right: 5px;
     border: 1px solid lightgray;
     padding:5px;
+    vertical-align: center;
 }
 
 table.all_advisors_table {
@@ -238,11 +239,10 @@ td.total {
 }
 
 .double_dip_table {
-    float: left;
-    clear: left;
+    float: right;
     margin-right: 10px;
     min-width: 150px;
-    max-width: 500px;
+    max-width: 50%;
 }
 
 .double_dip_table th {
