@@ -16,6 +16,13 @@ body {
     margin-right: auto;
 }
 
+.block_text {
+    max-width: 800px;
+    color: #202020;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 
 

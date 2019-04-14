@@ -25,7 +25,9 @@ SECRET_KEY = '&i!o$9lxi6g8crf6yfl$n5@_^4hj$fo-s=)t0kx1$u1clz!y$='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['eb-django-app-dev.elasticbeanstalk.com',
+                '127.0.0.1',
+                'advisor.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
@@ -70,6 +72,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
+#WSGI_APPLICATION = 'mysite/wsgi.py'
 
 
 # Database
@@ -119,10 +122,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+#STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 
+
+#STATIC_ROOT = 'advisor/static'
+STATIC_ROOT = os.path.join(BASE_DIR,'advisor/static')
+
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"), 
+    os.path.join(BASE_DIR, "static"),
 )
 
 LOGIN_REDIRECT_URL = 'index'
