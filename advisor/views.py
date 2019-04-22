@@ -1,14 +1,15 @@
-from django.shortcuts import get_object_or_404, get_list_or_404, render
+from django.shortcuts import get_object_or_404, get_list_or_404, render, redirect
 from django.template import loader
-from django.http import HttpResponse
-from.forms import NoteForm
+from django.http import HttpResponse, HttpResponseRedirect
+from .forms import NoteForm
+from django.utils import timezone
 
 from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         ElectiveCourse, Advisee, Advisor, 
                         Instructor, MajorCourseGrade, SecondMajorCourseGrade,
                         CoreCourseGrade, ElectiveCourseGrade,
                         GradeChoice,CourseCredit, AdvisorRelationship, StudyMajor,
-                        Note, FutureCourse)
+                        Note, FutureCourse,)
 
 # original index view.  Not going to use it, but leaving it here for
 # information only.
@@ -493,13 +494,7 @@ def advisee(request, advisee_id):
 
     double_dip_count = 0
     for item in in_major_and_second_major_list:
-        double_dip_count +=1
-
-    
-
-
-
-    
+        double_dip_count +=1 
         
 
 
@@ -538,10 +533,10 @@ def advisee(request, advisee_id):
     # ---------------------------------------------------------
     # this is the form that is going to be used for
     # adding notes.
-    form = NoteForm(request.POST or None)
-    if form.is_valid():
-        save_it = form.save(commit=False)
-        save_it.save()
+    #form = NoteForm(request.POST or None)
+    #if form.is_valid():
+     #   text = form.cleaned_data['note']
+    #  save
     #-----------------------------------------------------------
 
 
@@ -559,7 +554,7 @@ def advisee(request, advisee_id):
                 'advisors':advisors, 'gpa':gpa, 'major_credits':major_credits, \
                 'second_major_credits':second_major_credits, 'minor_credits':minor_credits, \
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
-                'title':title, 'notes':notes, 'form':form, 'major_course_list':major_course_list, \
+                'title':title, 'notes':notes, 'major_course_list':major_course_list, \
                 'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count,
                 'future_courses':future_courses, 'major_requirements_met':major_requirements_met}
 
@@ -583,6 +578,7 @@ def advisee(request, advisee_id):
 def advisor_record(request, advisor_id):
     
     advisee_list = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)
+    
     advisor = get_list_or_404(AdvisorRelationship, advisor_id=advisor_id)[0]
 
     # title that is going to show up in the browser tab
@@ -677,3 +673,38 @@ def studies(request):
     context = {'study_majors':study_majors}
 
     return render(request, 'advisor/studies.html', context)
+
+def note_list(request):
+    notes = Note.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    return render(request, 'advisor/note_list.html', {'notes': notes})
+
+def note_detail(request, advisee_id):
+    note = get_object_or_404(Note, advisee_id=advisee_id)
+    return render(request, 'advisor/note_detail.html', {'note': note})
+
+def note_new(request):
+    if request.method == "POST":
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.author = request.user
+            note.published_date = timezone.now()
+            note.save()
+            return redirect('note_detail', advisee_id=advisee_id)
+    else:
+        form = NoteForm()
+    return render(request, 'advisor/note_edit.html', {'form': form})
+
+def note_edit(request, advisee_id):
+    note = get_object_or_404(Note, advisee_id=advisee_id)
+    if request.method == "POST":
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.author = request.user
+            note.published_date = timezone.now()
+            note.save()
+            return redirect('/advisor/advisee/' + str(advisee_id) + '/', advisee_id=advisee_id)
+    else:
+        form = NoteForm(instance=note)
+    return render(request, 'advisor/note_edit.html', {'form': form})

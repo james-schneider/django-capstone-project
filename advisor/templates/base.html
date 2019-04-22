@@ -15,15 +15,20 @@
 
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/advisor_layout.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/tables.css' %}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
 <body>
         <nav class="topnav" id="myTopnav">
             <img class="nav_logo" src="{% static 'images/MilliganBuffalo.jpg' %}"/>
             <span id="beta_version">Beta Version</span>
             {% if user.is_authenticated %}
-                <a class="topnav-right" href="{% url 'password_reset' %}" target="blank">Reset Password</a>    
-                <a class="topnav-right" href="{% url 'admin:index' %}" target="blank">Admin</a>
+                {% comment %}
+                <a class="topnav-right" href="{% url 'password_reset' %}" target="blank">Reset Password</a>
+                {% endcomment %}
                 <a class="topnav-right" href="{% url 'logout' %}">Log out</a>
+                <a class="topnav-right" href="{% url 'admin:index' %}" target="blank">Admin</a>
+                
             {% else %}
                 <a class="topnav-right" href="{% url 'login' %}">Log in</a>
             {% endif %}

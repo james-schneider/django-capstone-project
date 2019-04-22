@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% for note in notes %}
+    <div class="note">
+        <div class="date">
+            {{ note.published_date }}
+        </div>
+        <h1><a href="{% url 'note_detail' advisee_id=advisee_id %}">{{ note.title }}</a></h1>
+        <p>{{ note.text|linebreaksbr }}</p>
+    </div>
+{% endfor %}
+{% endblock %}

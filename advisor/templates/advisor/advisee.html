@@ -348,12 +348,13 @@
     <br>
 
     <div class="notes">
-        <h2>Notes</h2>
+        <h4>Notes</h4>
         <ul>
             {% if notes != None %}
                 {% for note in notes %}
-                 <li>{{ note.text }}</li>
-                {% endfor %}
+                    <span class="note_text">{{ note.text }}</span> <a class="btn btn-default" href="{% url 'advisor:note_edit' note.advisee_id %}"><span class="glyphicon glyphicon-pencil"></span></a></li><br>
+
+                 {% endfor %}
             {% else %}
                 <li>No notes yet.</li>
             {% endif %}
@@ -436,7 +437,6 @@
 
 
 
-    {% comment%}
     <!--The form below will be used for adding notes while
     inside the advisee's record.
     This form still needs some work.  For the time being,
@@ -447,7 +447,7 @@
         {{ form.as_p }}
         <input type="submit" value="Add New Note">
         </form>
-    {% endcomment %}
+    
 
 
 

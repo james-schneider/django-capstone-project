@@ -32,6 +32,12 @@ urlpatterns = [
     # ex: /advisor/about
     path('about/', views.about, name='about'),
 
+    path('note/<int:advisee_id>/', views.note_detail, name='note_detail'),
+    path('note/new/', views.note_new, name='note_new'),
+    path('note/<int:advisee_id>/edit/', views.note_edit, name='note_edit'),
+
+
+
 ] 
 
 #+static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

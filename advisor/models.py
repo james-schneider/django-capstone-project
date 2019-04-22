@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
 
 
 class StudyMajor(models.Model):
@@ -88,7 +90,7 @@ class MajorCourse(models.Model):
 class SecondMajorCourse(models.Model):
     course_no = models.CharField(max_length=20)
     course_name = models.CharField(max_length=100)
-    credits = models.FloatField(max_length=10, blank=True, null=True)
+    credits = models.FloatField(max_length=10, default=3.0)
     instructor_name = models.CharField(max_length=100, blank=True)
     is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
@@ -109,7 +111,7 @@ class SecondMajorCourse(models.Model):
 class CoreCourse(models.Model):
     course_no = models.CharField(max_length=20)
     course_name = models.CharField(max_length=100)
-    credits = models.FloatField(max_length=10, blank=True, null=True)
+    credits = models.FloatField(max_length=10, default=3.0)
     instructor_name = models.CharField(max_length=100, blank=True)
     is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
@@ -120,7 +122,7 @@ class CoreCourse(models.Model):
 class ElectiveCourse(models.Model):
     course_no = models.CharField(max_length=20)
     course_name = models.CharField(max_length=100)
-    credits = models.FloatField(max_length=10, blank=True, null=True)
+    credits = models.FloatField(max_length=10, default=3.0)
     instructor_name = models.CharField(max_length=100, blank=True)
     is_developmental = models.BooleanField(default=False, blank=True)
     #instructor_name = models.ForeignKey(Instructor, on_delete=models.CASCADE, blank=True)
@@ -206,14 +208,14 @@ class AdvisorRelationship(models.Model):
         return str(self.advisor) + " ---> " + str(self.advisee)
 
 
-class Note(models.Model):
+"""class Note(models.Model):
     advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
     text = models.CharField(max_length=120, null=True, blank=True)
     #created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
 
-        return str(self.advisee) + ": " + str(self.text)
+        return str(self.advisee) + ": " + str(self.text)"""
 
 class FutureCourse(models.Model):
     advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
@@ -229,7 +231,17 @@ class FutureCourse(models.Model):
     def __str__(self):
         return self.course_no + " - " + self.course_name + " - " + self.advisee.last_name + ", " + self.advisee.first_name
 
+class Note(models.Model):
+    advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField(default="")
+    created_date = models.DateTimeField(default=timezone.now)
 
+    def publish(self):
+        self.published_date = timezone.now()
+        self.save()
 
+    #def __str__(self):
+    #    return self.title
 
 

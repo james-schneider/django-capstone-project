@@ -192,3 +192,8 @@ span#false {
     padding-right: 3px;
     padding-top: 3px;
 }
+
+span.note_text {
+    font-size: 16px;
+    color: #181818;
+}

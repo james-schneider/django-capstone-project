@@ -71,7 +71,11 @@ TEMPLATES = [
     },
 ]
 
+## 'mysite.wsgi.application' is used on local development server
+## uncomment below line for development
 WSGI_APPLICATION = 'mysite.wsgi.application'
+
+## 'mysite/wsgi.py' is used on elastic beanstalk production server
 #WSGI_APPLICATION = 'mysite/wsgi.py'
 
 
@@ -122,7 +126,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-#STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 
 
@@ -130,7 +133,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'advisor/static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+    os.path.join(BASE_DIR, "/static"),
 )
 
 LOGIN_REDIRECT_URL = 'index'
