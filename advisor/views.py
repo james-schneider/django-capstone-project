@@ -3,6 +3,7 @@ from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import NoteForm
 from django.utils import timezone
+from django.forms.models import modelformset_factory
 
 from .models import (MajorCourse, SecondMajorCourse, CoreCourse,
                         ElectiveCourse, Advisee, Advisor, 
@@ -528,16 +529,8 @@ def advisee(request, advisee_id):
         #notes = get_list_or_404(Note)
     except:
         notes = ""
-    
-    # Not being used yet---------------------------------------
-    # ---------------------------------------------------------
-    # this is the form that is going to be used for
-    # adding notes.
-    #form = NoteForm(request.POST or None)
-    #if form.is_valid():
-     #   text = form.cleaned_data['note']
-    #  save
-    #-----------------------------------------------------------
+
+    note_url = '/advisor/note/' + str(advisee_id) + '/'
 
 
     required_for_CISM_major_counter
@@ -556,7 +549,8 @@ def advisee(request, advisee_id):
                 'core_credits':core_credits, 'elective_credits':elective_credits, 'total_credits':total_credits, \
                 'title':title, 'notes':notes, 'major_course_list':major_course_list, \
                 'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count,
-                'future_courses':future_courses, 'major_requirements_met':major_requirements_met}
+                'future_courses':future_courses, 'major_requirements_met':major_requirements_met, \
+                'note_url':note_url,}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)
@@ -674,7 +668,7 @@ def studies(request):
 
     return render(request, 'advisor/studies.html', context)
 
-def note_list(request):
+"""def note_list(request):
     notes = Note.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'advisor/note_list.html', {'notes': notes})
 
@@ -707,4 +701,36 @@ def note_edit(request, advisee_id):
             return redirect('/advisor/advisee/' + str(advisee_id) + '/', advisee_id=advisee_id)
     else:
         form = NoteForm(instance=note)
-    return render(request, 'advisor/note_edit.html', {'form': form})
+    return render(request, 'advisor/note_edit.html', {'form': form})"""
+
+
+
+def note(request, advisee_id):
+
+
+    # list of advisees from the Advisee model in models.py
+    advisee_info = get_object_or_404(Advisee, pk=advisee_id)
+
+    # only show notes from the current advisee(student)
+    note_obj = Note.objects.filter(advisee_id=advisee_id)
+
+    NoteFormSet = modelformset_factory(Note, fields=('text', 'created_date', 'author', 'advisee' ))
+
+    if request.method == 'POST':
+        form = NoteFormSet(request.POST, queryset=note_obj)
+        if form.is_valid():
+            form.save(commit=False)
+            #note.advisee_id=advisee_id
+            instances = form.save()
+            form.save()
+
+        #for instance in instances"
+        #    instance.save()
+    
+    else:
+        form = NoteFormSet(queryset=note_obj)
+
+    context = {'form':form, 'advisee_info':advisee_info, }
+
+    return render(request, 'advisor/note.html', context)
+

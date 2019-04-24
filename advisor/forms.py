@@ -1,9 +1,7 @@
 from django import forms
 from django.forms import fields, CheckboxInput
-
-from django import forms
-
 from .models import Note
+from django.forms.models import inlineformset_factory
 
 class NoteForm(forms.ModelForm):
 

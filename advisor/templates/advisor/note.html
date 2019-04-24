@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+{% block content %}
+
+    <span id="note_header">{{ advisee_info.first_name }} {{ advisee_info.last_name }}</span>
+
+    <form method="POST">
+        {% csrf_token %}
+    <div class="note_form">
+        {{ form.as_p }}
+        <input type="submit">
+
+        {% comment %}
+        <button id="submit_notes" type="submit">Save Notes</button>
+        {% endcomment %}
+            
+        </div>
+    </form>
+
+{% endblock %}
+
+{{ form.as_p }}

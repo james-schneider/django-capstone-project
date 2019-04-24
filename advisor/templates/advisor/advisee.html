@@ -348,11 +348,19 @@
     <br>
 
     <div class="notes">
-        <h4>Notes</h4>
+        <p>Notes
+            <a class="note_edit" href="{{ note_url }}">
+            <span id="note_edit" class="far fa-edit"></span></a>
+        </p>
         <ul>
             {% if notes != None %}
                 {% for note in notes %}
-                    <span class="note_text">{{ note.text }}</span> <a class="btn btn-default" href="{% url 'advisor:note_edit' note.advisee_id %}"><span class="glyphicon glyphicon-pencil"></span></a></li><br>
+                    <li><span class="">{{ note.text }}</span></li>
+
+                    {% comment %}
+                    <a class="note_edit" href="{% url 'advisor:note' note.advisee_id %}">
+                    <span id="note_edit" class="far fa-edit"></span></a><br>
+                    {% endcomment %}
 
                  {% endfor %}
             {% else %}
