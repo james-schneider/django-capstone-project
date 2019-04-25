@@ -34,6 +34,8 @@ urlpatterns = [
 
     path('note/<int:advisee_id>/', views.note, name='note'),
 
+    path('majorgrades/<int:advisee_id>/', views.major_grades, name='major_grades'),
+
     #path('note/<int:advisee_id>/', views.note_detail, name='note_detail'),
     #path('note/new/', views.note_new, name='note_new'),
     #path('note/<int:advisee_id>/edit/', views.note_edit, name='note_edit'),

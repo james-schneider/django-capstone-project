@@ -18,11 +18,11 @@
     <link rel="stylesheet" type="text/css" href="{% static 'advisor/tables.css' %}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     
+    
 </head>
 <body>
         <nav class="topnav" id="myTopnav">
             <img class="nav_logo" src="{% static 'images/MilliganBuffalo.jpg' %}"/>
-            <span id="beta_version">Beta Version</span>
             {% if user.is_authenticated %}
                 {% comment %}
                 <a class="topnav-right" href="{% url 'password_reset' %}" target="blank">Reset Password</a>

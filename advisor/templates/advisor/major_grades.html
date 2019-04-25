@@ -9,15 +9,15 @@
 
     <form method="POST">
         {% csrf_token %}
-    
+        
         {{ form.as_p }}
-        <input type="submit" value="Save Grades">
+        <input type="submit" >
 
         {% comment %}
-        <button id="submit_notes" type="submit">Save Notes</button>
+        <button id="submit_notes" type="submit">Save Grades</button>
         {% endcomment %}
             
-        </div>
+    </div>
     </form>
 
 {% endblock %}

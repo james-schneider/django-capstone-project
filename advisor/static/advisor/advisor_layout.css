@@ -202,7 +202,7 @@ span.note_text {
 span#note_edit {
 
     font-size: 20px;
-    color: #0000FF;
+    color: gray;
 }
 
 span#note_header {

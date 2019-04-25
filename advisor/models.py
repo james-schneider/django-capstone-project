@@ -233,15 +233,14 @@ class FutureCourse(models.Model):
 
 class Note(models.Model):
     advisee = models.ForeignKey(Advisee, on_delete=models.CASCADE)
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField(default="")
-    created_date = models.DateTimeField(default=timezone.now)
 
-    def publish(self):
-        self.published_date = timezone.now()
-        self.save()
 
-    #def __str__(self):
-    #    return self.title
+    #def publish(self):
+    #    self.published_date = timezone.now()
+    #    self.save()
+
+    def __str__(self):
+        return self.advisee.last_name + ", " + self.advisee.first_name + " - " + self.text
 
 

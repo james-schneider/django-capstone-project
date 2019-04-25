@@ -532,6 +532,8 @@ def advisee(request, advisee_id):
 
     note_url = '/advisor/note/' + str(advisee_id) + '/'
 
+    major_grades_url = '/advisor/majorgrades/' + str(advisee_id) + '/'
+
 
     required_for_CISM_major_counter
     
@@ -550,7 +552,7 @@ def advisee(request, advisee_id):
                 'title':title, 'notes':notes, 'major_course_list':major_course_list, \
                 'in_major_and_second_major_list':in_major_and_second_major_list, 'double_dip_count':double_dip_count,
                 'future_courses':future_courses, 'major_requirements_met':major_requirements_met, \
-                'note_url':note_url,}
+                'note_url':note_url, 'major_grades_url':major_grades_url,}
 
     #advisor is the name of the app, advisee.html is the template
     return render(request, 'advisor/advisee.html', context)
@@ -714,15 +716,21 @@ def note(request, advisee_id):
     # only show notes from the current advisee(student)
     note_obj = Note.objects.filter(advisee_id=advisee_id)
 
-    NoteFormSet = modelformset_factory(Note, fields=('text', 'created_date', 'author', 'advisee' ))
+    NoteFormSet = modelformset_factory(Note, fields=('text', 'advisee',))
+    #NoteFormSet = modelformset_factory(Note, extra=2)
+
+
+    #formset = NoteFormSet(initial=[{'advisee_id': advisee_id}])
+    #formset = NoteFormSet(queryset=Note.objects.none(),
+                              #initial=[{'advisee_id': advisee_id}])
 
     if request.method == 'POST':
-        form = NoteFormSet(request.POST, queryset=note_obj)
+        form = NoteFormSet(request.POST, queryset=note_obj,)
         if form.is_valid():
             form.save(commit=False)
-            #note.advisee_id=advisee_id
             instances = form.save()
             form.save()
+            return redirect('/advisor/advisee/' + str(advisee_id) + '/', advisee_id=advisee_id)
 
         #for instance in instances"
         #    instance.save()
@@ -733,4 +741,36 @@ def note(request, advisee_id):
     context = {'form':form, 'advisee_info':advisee_info, }
 
     return render(request, 'advisor/note.html', context)
+
+def major_grades(request, advisee_id):
+    # list of advisees from the Advisee model in models.py
+    advisee_info = get_object_or_404(Advisee, pk=advisee_id)
+
+    # only show notes from the current advisee(student)
+    note_obj = MajorCourseGrade.objects.filter(advisee_id=advisee_id)
+
+    MajorCourseGradeFormSet = modelformset_factory(MajorCourseGrade, fields=('course', 'grade', 'advisee',), extra=5)
+
+
+    #formset = NoteFormSet(initial=[{'advisee_id': advisee_id}])
+    #formset = NoteFormSet(queryset=Note.objects.none(),
+                              #initial=[{'advisee_id': advisee_id}])
+
+    if request.method == 'POST':
+        form = MajorCourseGradeFormSet(request.POST, queryset=note_obj)
+        if form.is_valid():
+            form.save(commit=False)
+            instances = form.save()
+            form.save()
+            return redirect('/advisor/advisee/' + str(advisee_id) + '/', advisee_id=advisee_id)
+
+        #for instance in instances"
+        #    instance.save()
+    
+    else:
+        form = MajorCourseGradeFormSet(queryset=note_obj)
+
+    context = {'form':form, 'advisee_info':advisee_info, }
+
+    return render(request, 'advisor/major_grades.html', context)
 
