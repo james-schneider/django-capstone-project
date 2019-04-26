@@ -36,6 +36,14 @@ urlpatterns = [
 
     path('majorgrades/<int:advisee_id>/', views.major_grades, name='major_grades'),
 
+    path('secondmajorgrades/<int:advisee_id>/', views.second_major_grades, name='second_major_grades'),
+
+    path('coregrades/<int:advisee_id>/', views.core_grades, name='core_grades'),
+
+    path('electivegrades/<int:advisee_id>/', views.elective_grades, name='elective_grades'),
+
+    path('futurecourses/<int:advisee_id>/', views.future_courses, name='future_courses'),
+
     #path('note/<int:advisee_id>/', views.note_detail, name='note_detail'),
     #path('note/new/', views.note_new, name='note_new'),
     #path('note/<int:advisee_id>/edit/', views.note_edit, name='note_edit'),

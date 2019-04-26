@@ -8,20 +8,20 @@
 {% if user.is_authenticated %}
 
     <span id="note_header">{{ advisee_info.first_name }} {{ advisee_info.last_name }}</span>
-    
-    <div class="form_class">
-        <form class="grade_form" method="POST">
-            {% csrf_token %}
-            
-            {{ form.as_p }}
 
-            {% comment %}
-            <input class="submit_button" type="submit" value="Submit" >
-            {% endcomment %}
-            
-            <button id="submit_notes" type="submit">Submit</button>
-            
-        </form>   
+    <div class="future_course_form">
+    <form method="POST" class="future_form">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+
+        {% comment %}
+        <input type="submit" value="Save Courses">
+        {% endcomment %}
+
+        
+        <button id="submit_notes" type="submit">Save Courses</button>
+    </form>       
     </div>
     
 

@@ -7,17 +7,21 @@
 
     <span id="note_header">{{ advisee_info.first_name }} {{ advisee_info.last_name }}</span>
 
-    <form method="POST">
+    <div class="">
+    <form class="grade_form" method="POST">
         {% csrf_token %}
     
         {{ form.as_p }}
-        <input type="submit" value="Save Grades">
 
         {% comment %}
-        <button id="submit_notes" type="submit">Save Notes</button>
+        <input type="submit" value="Save Notes">
         {% endcomment %}
+
+       
+        <button id="submit_notes" type="submit">Save Notes</button>
+     
             
-        </div>
+    </div>
     </form>
 
 {% endblock %}

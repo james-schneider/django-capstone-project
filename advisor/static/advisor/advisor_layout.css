@@ -102,7 +102,7 @@ form.planning {
     position:relative;
 }
 
-input {
+form#login input {
     width:99%;
     height: 30px;
     border-radius: 5px;
@@ -218,6 +218,7 @@ span#note_header {
 
 #submit_notes {
     margin-top: 20px;
+    margin-bottom: 20px;
     width: 100%;
     height: 40px;
     font-size: 20px;
@@ -226,4 +227,42 @@ span#note_header {
     cursor:pointer;
     border-radius: 5px;
     text-align: center;
+
+}
+
+.form_class {
+    width: 500px;
+    background: gainsboro;
+    padding: 5px;
+}
+
+form.grade_form input {
+    width: 300px;
+    margin-bottom: 35px;
+}
+
+form.future_form input:last-child {
+    margin-bottom: 50px;
+}
+
+input:last-child {
+    margin-bottom: 100px;
+}
+
+.future_form input {
+    margin-bottom: 15px;
+    width: 300px;
+}
+
+input.submit_button {
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    color: white;
+    background: rgb(234,113,37);
+    padding: 5px;
+}
+
+input.submit_button:hover {
+    cursor: pointer;
 }

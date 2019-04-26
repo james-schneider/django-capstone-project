@@ -203,7 +203,9 @@
         {% endfor %}
         <tr>
             <td class="total"></td>
-            <td class="total"></td>
+            <td class="total"><a class="note_edit" href="{{ second_major_grades_url }}">
+                <span id="note_edit" class="far fa-edit"></span></a>
+            </td>
             <td class="total">{{ second_major_credits }}</td>
         </tr>
     </table>
@@ -260,7 +262,9 @@
 
         <tr>
             <td class="total"></td>
-            <td class="total"></td>
+            <td class="total"><a class="note_edit" href="{{ core_grades_url }}">
+                <span id="note_edit" class="far fa-edit"></span></a>
+            </td>
             <td class="total">{{ core_credits }}</td>
         </tr>
     </table>
@@ -313,7 +317,9 @@
         {% endfor %}
         <tr>
             <td class="total"></td>
-            <td class="total"></td>
+            <td class="total"><a class="note_edit" href="{{ elective_grades_url }}">
+                <span id="note_edit" class="far fa-edit"></span></a>
+            </td>
             <td class="total">{{ elective_credits }}</td>
         </tr>
 
@@ -435,8 +441,12 @@
                     </td>
 
                 </tr>
-            
         {% endfor %}
+                <tr>
+                    <td class="total"><a class="note_edit" href="{{ future_courses_url }}">
+                        <span id="note_edit" class="far fa-edit"></span></a>
+                    </td>
+                </tr>
 
     </table>
         
@@ -445,18 +455,6 @@
     {% endif %}
     </div>
 
-
-
-    <!--The form below will be used for adding notes while
-    inside the advisee's record.
-    This form still needs some work.  For the time being,
-    notes can be added from the Django admin site.-->
-    
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Add New Note">
-        </form>
     
 
 
@@ -465,7 +463,8 @@
 
 {% comment%}
     <!--the below section will be displayed if user is not logged in-->
-{% endcomment %}    
+{% endcomment %}
+
 {% else %}
     <div>
         <img  id="academic_excellence" src="{% static 'images/MilliganCollege.png' %}"/>

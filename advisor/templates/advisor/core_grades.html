@@ -8,22 +8,19 @@
 {% if user.is_authenticated %}
 
     <span id="note_header">{{ advisee_info.first_name }} {{ advisee_info.last_name }}</span>
-    
-    <div class="form_class">
-        <form class="grade_form" method="POST">
-            {% csrf_token %}
-            
-            {{ form.as_p }}
+    <div>
+    <form method="POST">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        <input type="submit" value="Save Grades" >
 
-            {% comment %}
-            <input class="submit_button" type="submit" value="Submit" >
-            {% endcomment %}
-            
-            <button id="submit_notes" type="submit">Submit</button>
-            
-        </form>   
+        
+        <button id="submit_notes" type="submit">Save Grades</button>
+       
+
+    </form>
     </div>
-    
 
 {% comment%}
     <!--the below section will be displayed if user is not logged in-->
